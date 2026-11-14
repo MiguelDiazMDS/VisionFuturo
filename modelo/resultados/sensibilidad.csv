@@ -1,55 +1,61 @@
-parametro,nivel,valor,escenario,pib_pc_indice,tasa_paro,deuda_pib,gasto_pensiones_pib,salario_neto_real_indice,precio_renta_años
-"Efecto de las reformas en la PTF (×0,3 / ×1,6)",bajo,0.3,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Efecto de las reformas en la PTF (×0,3 / ×1,6)",bajo,0.3,B,111.632,7.521,99.904,14.211,111.268,8.292
-"Efecto de las reformas en la PTF (×0,3 / ×1,6)",bajo,0.3,D,111.066,7.78,76.311,13.96,111.015,8.302
-"Efecto de las reformas en la PTF (×0,3 / ×1,6)",alto,1.6,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Efecto de las reformas en la PTF (×0,3 / ×1,6)",alto,1.6,B,119.399,7.509,87.303,13.333,118.993,8.292
-"Efecto de las reformas en la PTF (×0,3 / ×1,6)",alto,1.6,D,118.941,7.767,64.351,13.087,118.868,8.301
-"Efecto de las reformas en el empleo (×0,3 / ×1,5)",bajo,0.3,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Efecto de las reformas en el empleo (×0,3 / ×1,5)",bajo,0.3,B,113.856,9.279,97.717,13.966,116.148,8.292
-"Efecto de las reformas en el empleo (×0,3 / ×1,5)",bajo,0.3,D,113.311,9.554,74.442,13.721,115.944,8.302
-"Efecto de las reformas en el empleo (×0,3 / ×1,5)",alto,1.5,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Efecto de las reformas en el empleo (×0,3 / ×1,5)",alto,1.5,B,116.913,6.254,90.044,13.59,114.957,8.292
-"Efecto de las reformas en el empleo (×0,3 / ×1,5)",alto,1.5,D,116.426,6.501,66.827,13.341,114.78,8.301
-"Multiplicador fiscal (0,4 / 1,3)",bajo,0.4,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Multiplicador fiscal (0,4 / 1,3)",bajo,0.4,B,116.364,7.277,90.417,13.662,115.679,8.282
-"Multiplicador fiscal (0,4 / 1,3)",bajo,0.4,D,116.234,7.38,64.756,13.379,115.678,8.286
-"Multiplicador fiscal (0,4 / 1,3)",alto,1.3,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Multiplicador fiscal (0,4 / 1,3)",alto,1.3,B,114.943,7.866,96.679,13.822,114.997,8.307
-"Multiplicador fiscal (0,4 / 1,3)",alto,1.3,D,114.028,8.293,76.365,13.611,114.612,8.322
-"Histéresis (0 / 0,30)",bajo,0.0,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Histéresis (0 / 0,30)",bajo,0.0,B,116.95,7.038,90.531,13.594,115.962,8.292
-"Histéresis (0 / 0,30)",bajo,0.0,D,117.19,6.988,64.818,13.271,116.138,8.301
-"Histéresis (0 / 0,30)",alto,0.3,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Histéresis (0 / 0,30)",alto,0.3,B,114.632,7.993,95.375,13.861,114.844,8.292
-"Histéresis (0 / 0,30)",alto,0.3,D,113.375,8.564,74.712,13.692,114.293,8.302
-"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",bajo,2.25,A,108.002,9.5,115.68,15.927,107.294,8.515
-"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",bajo,2.25,B,115.791,7.514,84.496,13.726,115.404,8.292
-"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",bajo,2.25,D,115.282,7.773,62.544,13.478,115.219,8.301
-"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",alto,4.25,A,108.002,9.5,136.487,15.927,107.294,8.515
-"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",alto,4.25,B,115.791,7.514,102.153,13.726,115.404,8.292
-"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",alto,4.25,D,115.282,7.773,77.531,13.478,115.219,8.301
-"Crecimiento tendencial de la PTF (0,2 % / 0,8 %)",bajo,0.2,A,100.815,9.5,142.699,16.971,100.154,8.515
-"Crecimiento tendencial de la PTF (0,2 % / 0,8 %)",bajo,0.2,B,108.057,7.527,107.824,14.633,107.711,8.292
-"Crecimiento tendencial de la PTF (0,2 % / 0,8 %)",bajo,0.2,D,107.577,7.788,83.389,14.368,107.536,8.302
-"Crecimiento tendencial de la PTF (0,2 % / 0,8 %)",alto,0.8,A,115.664,9.5,110.103,14.953,114.906,8.515
-"Crecimiento tendencial de la PTF (0,2 % / 0,8 %)",alto,0.8,B,124.037,7.502,79.393,12.881,123.607,8.292
-"Crecimiento tendencial de la PTF (0,2 % / 0,8 %)",alto,0.8,D,123.497,7.759,57.257,12.65,123.411,8.301
-"Saldo migratorio (×0,6 / ×1,3)",bajo,0.6,A,106.525,9.5,140.625,16.785,107.294,8.012
-"Saldo migratorio (×0,6 / ×1,3)",bajo,0.6,B,114.182,7.525,106.068,14.469,115.392,7.809
-"Saldo migratorio (×0,6 / ×1,3)",bajo,0.6,D,113.676,7.785,81.84,14.208,115.205,7.818
-"Saldo migratorio (×0,6 / ×1,3)",alto,1.3,A,109.021,9.5,115.618,15.348,107.294,8.912
-"Saldo migratorio (×0,6 / ×1,3)",alto,1.3,B,116.902,7.507,84.152,13.225,115.413,8.673
-"Saldo migratorio (×0,6 / ×1,3)",alto,1.3,D,116.39,7.764,61.568,12.986,115.228,8.684
-"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",bajo,1.0,A,108.002,9.5,125.635,15.927,107.294,8.491
-"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",bajo,1.0,B,115.791,7.514,92.93,13.726,115.404,8.363
-"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",bajo,1.0,D,115.282,7.773,69.687,13.478,115.219,8.369
-"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",alto,2.5,A,108.002,9.5,125.635,15.927,107.294,8.539
-"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",alto,2.5,B,115.791,7.514,92.93,13.726,115.404,8.221
-"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",alto,2.5,D,115.282,7.773,69.687,13.478,115.219,8.235
-"Participación salarial (−1,5 pp / 0)",bajo,-1.5,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Participación salarial (−1,5 pp / 0)",bajo,-1.5,B,115.792,7.514,92.85,13.704,112.081,8.292
-"Participación salarial (−1,5 pp / 0)",bajo,-1.5,D,115.283,7.772,69.597,13.453,111.87,8.301
-"Participación salarial (−1,5 pp / 0)",alto,0.0,A,108.002,9.5,125.635,15.927,107.294,8.515
-"Participación salarial (−1,5 pp / 0)",alto,0.0,B,115.791,7.514,92.93,13.726,115.404,8.292
-"Participación salarial (−1,5 pp / 0)",alto,0.0,D,115.282,7.773,69.687,13.478,115.219,8.301
+parametro,nivel,valor,escenario,pib_pc_indice,tasa_paro,deuda_pib,gasto_pensiones_pib,salario_neto_real_indice,precio_renta_años,paro_max
+"Efecto de las reformas en la PTF (×0,3 / ×1,6)",bajo,0.3,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Efecto de las reformas en la PTF (×0,3 / ×1,6)",bajo,0.3,B,116.176,7.014,90.438,13.69,115.165,8.292,10.35
+"Efecto de las reformas en la PTF (×0,3 / ×1,6)",bajo,0.3,D,115.591,7.272,67.515,13.449,114.904,8.301,11.757
+"Efecto de las reformas en la PTF (×0,3 / ×1,6)",alto,1.6,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Efecto de las reformas en la PTF (×0,3 / ×1,6)",alto,1.6,B,124.258,7.002,78.545,12.845,123.16,8.291,10.35
+"Efecto de las reformas en la PTF (×0,3 / ×1,6)",alto,1.6,D,123.786,7.259,56.237,12.609,123.033,8.301,11.756
+"Efecto de las reformas en el empleo (×0,3 / ×1,5)",bajo,0.3,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Efecto de las reformas en el empleo (×0,3 / ×1,5)",bajo,0.3,B,118.499,8.771,88.43,13.455,120.212,8.292,10.35
+"Efecto de las reformas en el empleo (×0,3 / ×1,5)",bajo,0.3,D,117.937,9.045,65.814,13.218,120.002,8.301,11.878
+"Efecto de las reformas en el empleo (×0,3 / ×1,5)",alto,1.5,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Efecto de las reformas en el empleo (×0,3 / ×1,5)",alto,1.5,B,121.665,5.747,81.094,13.094,118.985,8.292,10.35
+"Efecto de las reformas en el empleo (×0,3 / ×1,5)",alto,1.5,D,121.163,5.993,58.53,12.854,118.804,8.301,11.67
+"Multiplicador fiscal (0,4 / 1,3)",bajo,0.4,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Multiplicador fiscal (0,4 / 1,3)",bajo,0.4,B,121.088,6.774,81.467,13.164,119.725,8.282,10.35
+"Multiplicador fiscal (0,4 / 1,3)",bajo,0.4,D,120.956,6.876,56.581,12.891,119.725,8.286,10.74
+"Multiplicador fiscal (0,4 / 1,3)",alto,1.3,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Multiplicador fiscal (0,4 / 1,3)",alto,1.3,B,119.639,7.353,87.417,13.314,119.032,8.307,10.35
+"Multiplicador fiscal (0,4 / 1,3)",alto,1.3,D,118.692,7.779,67.612,13.111,118.635,8.322,13.084
+"Histéresis (0 / 0,30)",bajo,0.0,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Histéresis (0 / 0,30)",bajo,0.0,B,121.695,6.535,81.591,13.098,120.017,8.292,10.35
+"Histéresis (0 / 0,30)",bajo,0.0,D,121.945,6.485,56.641,12.788,120.2,8.301,11.453
+"Histéresis (0 / 0,30)",alto,0.3,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Histéresis (0 / 0,30)",alto,0.3,B,119.312,7.482,86.163,13.352,118.871,8.292,10.35
+"Histéresis (0 / 0,30)",alto,0.3,D,118.013,8.05,66.041,13.189,118.304,8.301,12.06
+"Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)",bajo,0.4 y 0.0,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)",bajo,0.4 y 0.0,B,121.759,6.509,80.165,13.094,120.047,8.282,10.35
+"Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)",bajo,0.4 y 0.0,D,121.973,6.473,54.226,12.79,120.213,8.286,10.677
+"Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)",alto,1.3 y 0.3,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)",alto,1.3 y 0.3,B,117.674,8.14,91.25,13.53,118.08,8.307,10.35
+"Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)",alto,1.3 y 0.3,D,115.476,9.074,75.794,13.456,117.065,8.322,13.58
+"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",bajo,2.25,A,112.389,9.0,106.011,15.347,111.039,8.515,10.35
+"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",bajo,2.25,B,120.504,7.007,76.008,13.224,119.446,8.292,10.35
+"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",bajo,2.25,D,119.978,7.265,54.665,12.985,119.256,8.301,11.756
+"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",alto,4.25,A,112.389,9.0,125.443,15.347,111.039,8.515,10.35
+"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",alto,4.25,B,120.504,7.007,92.445,13.224,119.446,8.292,10.35
+"Tipo de las nuevas emisiones (2,25 % / 4,25 %)",alto,4.25,D,119.978,7.265,68.528,12.985,119.256,8.301,11.756
+"Crecimiento tendencial de la PTF (0,35 % / 0,95 %)",bajo,0.35,A,104.927,9.0,131.411,16.349,103.667,8.515,10.35
+"Crecimiento tendencial de la PTF (0,35 % / 0,95 %)",bajo,0.35,B,112.474,7.019,97.9,14.094,111.502,8.292,10.35
+"Crecimiento tendencial de la PTF (0,35 % / 0,95 %)",bajo,0.35,D,111.979,7.279,74.172,13.839,111.322,8.302,11.76
+"Crecimiento tendencial de la PTF (0,35 % / 0,95 %)",alto,0.95,A,120.345,9.0,100.644,14.412,118.899,8.515,10.35
+"Crecimiento tendencial de la PTF (0,35 % / 0,95 %)",alto,0.95,B,129.064,6.995,71.09,12.413,127.915,8.291,10.35
+"Crecimiento tendencial de la PTF (0,35 % / 0,95 %)",alto,0.95,D,128.506,7.251,49.561,12.19,127.713,8.301,11.752
+"Saldo migratorio (×0,6 / ×1,3)",bajo,0.6,A,110.853,9.0,129.499,16.173,111.039,8.012,10.35
+"Saldo migratorio (×0,6 / ×1,3)",bajo,0.6,B,118.83,7.018,96.286,13.94,119.434,7.809,10.35
+"Saldo migratorio (×0,6 / ×1,3)",bajo,0.6,D,118.308,7.277,72.756,13.688,119.241,7.818,11.76
+"Saldo migratorio (×0,6 / ×1,3)",alto,1.3,A,113.45,9.0,105.82,14.789,111.039,8.912,10.35
+"Saldo migratorio (×0,6 / ×1,3)",alto,1.3,B,121.659,7.0,75.549,12.741,119.454,8.673,10.35
+"Saldo migratorio (×0,6 / ×1,3)",alto,1.3,D,121.131,7.256,53.592,12.512,119.265,8.683,11.753
+"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",bajo,1.0,A,112.389,9.0,115.306,15.347,111.039,8.491,10.35
+"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",bajo,1.0,B,120.504,7.007,83.856,13.224,119.446,8.363,10.35
+"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",bajo,1.0,D,119.978,7.265,61.269,12.985,119.256,8.368,11.756
+"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",alto,2.5,A,112.389,9.0,115.306,15.347,111.039,8.539,10.35
+"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",alto,2.5,B,120.504,7.007,83.856,13.224,119.446,8.221,10.35
+"Elasticidad precio-oferta de vivienda (1,0 / 2,5)",alto,2.5,D,119.978,7.265,61.269,12.985,119.256,8.235,11.756
+"Participación salarial (−1,5 pp / 0)",bajo,-1.5,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Participación salarial (−1,5 pp / 0)",bajo,-1.5,B,120.505,7.007,83.798,13.206,116.047,8.292,10.35
+"Participación salarial (−1,5 pp / 0)",bajo,-1.5,D,119.98,7.264,61.162,12.957,115.748,8.301,11.756
+"Participación salarial (−1,5 pp / 0)",alto,0.0,A,112.389,9.0,115.306,15.347,111.039,8.515,10.35
+"Participación salarial (−1,5 pp / 0)",alto,0.0,B,120.504,7.007,83.856,13.224,119.446,8.292,10.35
+"Participación salarial (−1,5 pp / 0)",alto,0.0,D,119.978,7.265,61.269,12.985,119.256,8.301,11.756

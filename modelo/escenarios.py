@@ -64,9 +64,9 @@ P0 = dict(
     ocupados_2025=22.1,      # millones, media anual [SUP] (22,85 M en 3T 2026 [DIAG 9],
                              # creciendo ≈2 % anual)
     paro_2025=10.5,          # % media anual 2025 [SUP]; 10,18 % en 3T 2026 [DIAG 7]
-    paro_estr_2040_base=9.5,  # [SUP] sin reformas el paro estructural baja 1 pp por la
-                             # inercia de la reforma de 2021. El Ageing Report supone
-                             # convergencia a ≈7 %: aquí NO se regala esa mejora a la base.
+    paro_estr_2040_base=9.0,  # [SUP] sin reformas el paro estructural baja 1,5 pp hasta 2035
+                             # (inercia de la reforma de 2021). El Ageing Report supone
+                             # convergencia a ≈7-7,5 %: aquí solo se concede la mitad.
     part_tendencia=0.10,     # pp/año hasta 2035 [SUP] (efecto cohorte y reforma de 2011)
     horas_2025=1632.0,       # horas anuales por ocupado (OCDE, ≈1.630) [LIT]
     horas_tendencia=-0.15,   # % anual [SUP]
@@ -74,8 +74,12 @@ P0 = dict(
                              # (en España se estiman valores de 0,5 a 0,9)
     # ---- Productividad ---------------------------------------------------
     pib_2025=1687.0,         # miles de M€: 40.314 M€ de intereses = 2,39 % del PIB [DIAG 37]
-    ptf_base=0.5,            # % anual [SUP] entre el ≈0 de 2000-2019 y el ritmo de
-                             # 2013-2025 (BdE IA 2025 [DIAG 5]). Sensibilidad 0,2-0,8.
+    ptf_base=0.65,           # % anual [SUP][CAL] → productividad por hora ≈1,0 % anual.
+                             # Por encima de la historia (productividad +3,9 % en 2000-2025,
+                             # [DIAG §3.1]) y algo por debajo de AIReF/Ageing Report (≈1,1-1,3 %).
+                             # Se elige cerca de las proyecciones oficiales para no abaratar
+                             # la base y con ello inflar la ganancia de las reformas.
+                             # Sensibilidad 0,35-0,95.
     alfa=0.35,               # participación del capital [LIT]
     vel_capital=0.12,        # fracción anual del ajuste del capital a su nivel de largo plazo [SUP]
     composicion=0.15,        # caída de productividad media (%) por cada 1 % de empleo
@@ -110,7 +114,8 @@ P0 = dict(
     deriva_sanidad=0.065,    # pp de PIB al año por envejecimiento [LIT]: gasto ligado a la
                              # edad +5,2 pp en 2022-2050, de ellos +3,4 pensiones (03-crítica §1.1)
     defensa_extra=0.3,       # pp de PIB adicionales en 2030 [SUP]
-    medidas_energia_2026=0.4,  # pp, temporales: déficit 2026 del 2,8 % según AIReF [DIAG 35]
+    medidas_energia_2026=0.2,  # pp, temporales [CAL] para reproducir el déficit de 2026
+                             # previsto por la AIReF (2,8 %) [DIAG 35]
     deriva_ingresos=0.04,    # pp de PIB al año: MEI hasta 1,2 %, destope y progresividad
                              # en frío [DIAG 28] [SUP]; AIReF cifra las medidas de ingreso de
                              # la reforma de 2023 en ≈1 pp de PIB de media en 2022-2050
@@ -433,9 +438,12 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
 
         # ============ (5) SALARIOS ============
         cuña = P["cuña_2025"] + (P["deriva_ingresos"] * t - est["cuña_acum"]) / P["base_laboral"]
-        part_sal = 1 + P["delta_part_salarial"] / 100 / 0.5 * (ptf_ref / max(1e-9, sum(
-            r["ptf"] for r in esc["reformas"]) * esc["escala_ptf"]) if esc["reformas"] and esc["escala_ptf"] else 0.0)
-        # (la participación salarial ronda el 50 % del PIB: −1,5 pp ≈ −3 % del salario)
+        # Participación salarial: constante salvo en la sensibilidad (crítica del monopsonio).
+        # Ronda el 50 % del PIB, así que −1,5 pp equivalen a ≈−3 % del salario; el cambio
+        # entra al ritmo de la reforma laboral y solo en los escenarios con reformas.
+        fase_lab = max((perfil(a, r["inicio"], r["mitad"]) for r in esc["reformas"]
+                        if r["nombre"] == "laboral_dualidad"), default=0.0)
+        part_sal = 1 + P["delta_part_salarial"] / 100 / 0.5 * fase_lab
         coste_lab = (pib / empleo) / y_por_ocupado0 * part_sal      # índice 2025 = 1
         neto = coste_lab * (1 - cuña / 100) / (1 - P["cuña_2025"] / 100)
         est["w_reg"] += (coste_lab - est["w_reg"]) / P["años_base_reguladora"]
@@ -464,7 +472,7 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
             horas_por_ocupado=horas,
             pib_real_mmEUR=pib, pib_potencial_mmEUR=pib_pot, crecimiento_pib=crec, brecha_produccion=brecha,
             histeresis_acum_pct=cicatriz_previa,
-            pib_pc_EUR2025=pib_pc * 1e3 / 1e3, pib_pc_indice=pib_pc / pib_pc0 * 100,
+            pib_pc_EUR2025=pib_pc, pib_pc_indice=pib_pc / pib_pc0 * 100,
             pib_pc_ue100=P["pib_pc_ue_2025"] * (pib_pc / pib_pc0) / (1 + P["crec_pc_ue"] / 100) ** t,
             productividad_hora_EUR2025=pib * 1e9 / (empleo * 1e6 * horas),
             productividad_hora_indice=pib * 1e9 / (empleo * 1e6 * horas) / prod0 * 100,
@@ -512,8 +520,10 @@ SENSIBILIDAD = [
     ("Efecto de las reformas en el empleo (×0,3 / ×1,5)", "E", "escala_empleo", 0.3, 1.5),
     ("Multiplicador fiscal (0,4 / 1,3)", "P", "multiplicador", 0.4, 1.3),
     ("Histéresis (0 / 0,30)", "P", "histeresis", 0.0, 0.30),
+    ("Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)", "P", ("multiplicador", "histeresis"),
+     (0.4, 0.0), (1.3, 0.30)),
     ("Tipo de las nuevas emisiones (2,25 % / 4,25 %)", "P", "tipo_nuevo", 2.25, 4.25),
-    ("Crecimiento tendencial de la PTF (0,2 % / 0,8 %)", "P", "ptf_base", 0.2, 0.8),
+    ("Crecimiento tendencial de la PTF (0,35 % / 0,95 %)", "P", "ptf_base", 0.35, 0.95),
     ("Saldo migratorio (×0,6 / ×1,3)", "P", "factor_migracion", 0.6, 1.3),
     ("Elasticidad precio-oferta de vivienda (1,0 / 2,5)", "P", "elast_precio_viv", 1.0, 2.5),
     ("Participación salarial (−1,5 pp / 0)", "P", "delta_part_salarial", -1.5, 0.0),
@@ -528,15 +538,19 @@ def sensibilidad(claves=("B", "D")) -> pd.DataFrame:
         for nivel, valor in (("bajo", bajo), ("alto", alto)):
             P = copy.deepcopy(P0)
             escs = copy.deepcopy(ESCENARIOS)
-            if tipo == "P":
+            if isinstance(clave, tuple):
+                P.update(dict(zip(clave, valor)))
+                valor = " y ".join(str(v) for v in valor)
+            elif tipo == "P":
                 P[clave] = valor
             else:
                 for k in claves:
                     escs[k][clave] = valor
             for k in ("A",) + tuple(claves):
-                r = simular(escs[k], P).loc[AÑO_FIN]
+                df = simular(escs[k], P)
+                r = df.loc[AÑO_FIN]
                 filas.append(dict(parametro=etiqueta, nivel=nivel, valor=valor, escenario=k,
-                                  **{m: r[m] for m in METRICAS}))
+                                  **{m: r[m] for m in METRICAS}, paro_max=df["tasa_paro"].max()))
     return pd.DataFrame(filas)
 
 
@@ -712,6 +726,7 @@ FILAS_TABLA = [
 def _fmt(v, dec):
     if dec < 0:
         return f"{round(v, dec):,.0f}".replace(",", ".")
+    v = 0.0 if abs(v) < 0.5 * 10 ** -dec else v
     return f"{v:.{dec}f}".replace(".", ",")
 
 
@@ -733,15 +748,40 @@ def tablas(res: dict, sens: pd.DataFrame) -> str:
         out.append(f"| {a} | {_fmt(b.brecha_produccion, 1)} | {_fmt(dd.brecha_produccion, 1)} | "
                    f"{_fmt(b.tasa_paro, 1)} | {_fmt(dd.tasa_paro, 1)} | {_fmt(b.deuda_pib, 0)} | "
                    f"{_fmt(dd.deuda_pib, 0)} | {_fmt(dd.histeresis_acum_pct, 1)} |")
-    out += ["", "### Sensibilidad (valores en 2040; bajo → alto)", "",
-            "| Parámetro | PIB pc B (2025 = 100) | Paro B (%) | Deuda B (% PIB) | Deuda A (% PIB) | Deuda D (% PIB) | PIB pc D |",
-            "|---|---|---|---|---|---|---|"]
+    perdida = lambda k: -(res[k]["brecha_produccion"].clip(upper=0)).sum()
+    out += ["", "PIB perdido por brecha negativa, acumulado 2026-2040 (puntos-año de PIB): "
+            + "; ".join(f"{k} = {_fmt(perdida(k), 1)}" for k in "ABCD") + ".", "",
+            "Paro máximo: " + "; ".join(
+                f"{k} = {_fmt(res[k]['tasa_paro'].max(), 1)} % ({res[k]['tasa_paro'].idxmax()})" for k in "ABCD") + "."]
+    # Variante auxiliar: el mismo ajuste total que D, pero al ritmo de B (8 años) y con
+    # las reformas escalonadas como en B. Separa el efecto de la velocidad del efecto del tamaño.
+    dg = copy.deepcopy(ESCENARIOS["B"])
+    dg.update(recorte_resto=_serie(_tramo(2027, 2034, 3.0 / 8)), recorte_sanidad=_serie(_tramo(2027, 2034, 0.3 / 8)),
+              recorte_educacion=_serie(_tramo(2027, 2034, 0.3 / 8)),
+              pens_brecha_index=_serie({**_tramo(2028, 2035, 0.5), **_tramo(2036, 2037, 0.25)}))
+    g = simular(dg, P0)
+    d_ = res["D"]
+    out += ["", "### Velocidad frente a tamaño: D y una variante gradual del mismo tamaño", "",
+            "| Indicador | D · Choque (3 años) | Mismo ajuste en 8 años |", "|---|---|---|"]
+    for nombre, f, dec in [
+            ("Paro máximo 2027-2040 (%)", lambda x: x["tasa_paro"].loc[2027:].max(), 1),
+            ("Brecha de producción mínima (%)", lambda x: x["brecha_produccion"].min(), 1),
+            ("PIB perdido acumulado (puntos-año)", lambda x: -(x["brecha_produccion"].clip(upper=0)).sum(), 1),
+            ("Histéresis acumulada en 2040 (% del PIB potencial)", lambda x: x["histeresis_acum_pct"].iloc[-1], 1),
+            ("PIB per cápita 2040 (2025 = 100)", lambda x: x["pib_pc_indice"].iloc[-1], 0),
+            ("Deuda 2032 (% PIB)", lambda x: x["deuda_pib"].loc[2032], 0),
+            ("Deuda 2040 (% PIB)", lambda x: x["deuda_pib"].iloc[-1], 0)]:
+        out.append(f"| {nombre} | {_fmt(f(d_), dec)} | {_fmt(f(g), dec)} |")
+    out += ["", "### Sensibilidad (valores en 2040; valor bajo → valor alto del parámetro)", "",
+            "| Parámetro | PIB pc B | Paro B (%) | Deuda B | Deuda A | Salario neto B | Precio/renta B | Deuda D | PIB pc D | Paro máx. D (%) |",
+            "|---|---|---|---|---|---|---|---|---|---|"]
     for etiqueta, *_ in SENSIBILIDAD:
         s = sens[sens.parametro == etiqueta].set_index(["escenario", "nivel"])
         g = lambda k, m, dec: f"{_fmt(s.loc[(k, 'bajo'), m], dec)} → {_fmt(s.loc[(k, 'alto'), m], dec)}"
         out.append(f"| {etiqueta} | {g('B', 'pib_pc_indice', 0)} | {g('B', 'tasa_paro', 1)} | "
-                   f"{g('B', 'deuda_pib', 0)} | {g('A', 'deuda_pib', 0)} | {g('D', 'deuda_pib', 0)} | "
-                   f"{g('D', 'pib_pc_indice', 0)} |")
+                   f"{g('B', 'deuda_pib', 0)} | {g('A', 'deuda_pib', 0)} | {g('B', 'salario_neto_real_indice', 0)} | "
+                   f"{g('B', 'precio_renta_años', 1)} | {g('D', 'deuda_pib', 0)} | {g('D', 'pib_pc_indice', 0)} | "
+                   f"{g('D', 'paro_max', 1)} |")
     out.append("")
     return "\n".join(out)
 
@@ -758,6 +798,11 @@ def comprobaciones(res: dict):
     print(f"  Déficit 2026:             {-A.loc[2026, 'saldo_publico_pib']:.1f} %  (AIReF: 2,8 %)")
     print(f"  Crecimiento medio 2026-40: {A['crecimiento_pib'].mean():.2f} % anual; "
           f"paro 2026: {A.loc[2026, 'tasa_paro']:.1f} %")
+    P = copy.deepcopy(P0)
+    P.update(ptf_base=0.75, paro_estr_2040_base=7.5)
+    ar = simular(ESCENARIOS["A"], P).loc[2040]
+    print(f"  Con supuestos macro tipo Ageing Report (productividad ≈1,15 %, paro → 7,5 %): "
+          f"pensiones {ar['gasto_pensiones_pib']:.1f} % y deuda {ar['deuda_pib']:.0f} % en 2040")
     for k, df in res.items():
         assert df.notna().all().all(), f"NaN en el escenario {k}"
         assert (df["tasa_paro"].between(3, 20)).all(), f"paro fuera de rango en {k}"

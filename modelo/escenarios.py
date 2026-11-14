@@ -522,6 +522,7 @@ SENSIBILIDAD = [
     ("Histéresis (0 / 0,30)", "P", "histeresis", 0.0, 0.30),
     ("Multiplicador e histéresis a la vez (0,4 y 0 / 1,3 y 0,30)", "P", ("multiplicador", "histeresis"),
      (0.4, 0.0), (1.3, 0.30)),
+    ("Persistencia de la brecha de producción (0,4 / 0,8)", "P", "persistencia_brecha", 0.4, 0.8),
     ("Tipo de las nuevas emisiones (2,25 % / 4,25 %)", "P", "tipo_nuevo", 2.25, 4.25),
     ("Crecimiento tendencial de la PTF (0,35 % / 0,95 %)", "P", "ptf_base", 0.35, 0.95),
     ("Saldo migratorio (×0,6 / ×1,3)", "P", "factor_migracion", 0.6, 1.3),
@@ -576,6 +577,20 @@ def _estilo():
     return plt
 
 
+def _es(v, dec=None):
+    """Número con formato español (coma decimal, punto de millares)."""
+    if dec is None:
+        dec = 0 if abs(v - round(v)) < 1e-9 else 1
+    if dec < 0:
+        v, dec = round(v, dec), 0
+    return f"{v:,.{dec}f}".replace(",", "@").replace(".", ",").replace("@", ".")
+
+
+def _ejes_es(ax, eje="y"):
+    from matplotlib.ticker import FuncFormatter
+    getattr(ax, f"{eje}axis").set_major_formatter(FuncFormatter(lambda v, _: _es(v)))
+
+
 def _lineas(ax, res, col, base0, titulo, unidad, dec=1, ref=None, etiquetas=True):
     """Una línea por escenario, con valor final rotulado y sin doble eje."""
     finales = []
@@ -600,7 +615,7 @@ def _lineas(ax, res, col, base0, titulo, unidad, dec=1, ref=None, etiquetas=True
                     m = (pos[i] + pos[i - 1]) / 2
                     pos[i - 1], pos[i] = m - sep / 2, m + sep / 2
         for (k, v), p in zip(finales, pos):
-            txt = f"{k}  {v:,.{dec}f}".replace(",", "@").replace(".", ",").replace("@", ".")
+            txt = f"{k}  {_es(v, dec)}"
             ax.annotate(txt, (AÑO_FIN, p), xytext=(9, 0), textcoords="offset points",
                         va="center", ha="left", fontsize=9.5, color=TINTA)
     ax.set_title(titulo, loc="left", fontsize=12, color=TINTA, fontweight="bold", pad=22)
@@ -609,6 +624,7 @@ def _lineas(ax, res, col, base0, titulo, unidad, dec=1, ref=None, etiquetas=True
     ax.set_xticks(range(AÑO_BASE, AÑO_FIN + 1, 5))
     ax.grid(axis="x", visible=False)
     ax.tick_params(length=0)
+    _ejes_es(ax)
 
 
 def _leyenda(fig, ax, ncol=4, y=0.0):
@@ -657,7 +673,7 @@ def graficos(res: dict, sens: pd.DataFrame):
           "salario_bruto_real_indice", "Coste laboral real por ocupado", "Índice, 2025 = 100", 1,
           "07_salario_real.png")
     doble("deficit_vivienda_miles", "Déficit acumulado de vivienda",
-          "Miles de viviendas (hogares creados − viviendas terminadas, desde 2021)", 0,
+          "Miles de viviendas (hogares creados − viviendas terminadas, desde 2021)", -1,
           "precio_renta_años", "Precio de la vivienda / renta del hogar", "Años de renta bruta", 1,
           "08_vivienda.png", ref1=(0, "Déficit absorbido"))
 
@@ -671,15 +687,16 @@ def graficos(res: dict, sens: pd.DataFrame):
     for ax, (m, tit, uni, dec) in zip(axs, paneles):
         t = sb.pivot(index="parametro", columns="nivel", values=m)
         t["amp"] = (t["alto"] - t["bajo"]).abs()
-        if orden is None:
-            orden = t.sort_values("amp").index
+        if orden is None:  # solo los parámetros que mueven alguna de las dos magnitudes
+            mueve = sb.groupby("parametro")[[p[0] for p in paneles]].agg(lambda c: c.max() - c.min()).max(axis=1)
+            orden = [p for p in t.sort_values("amp").index if mueve[p] > 0.5]
         t = t.loc[orden]
         for i, (_, f) in enumerate(t.iterrows()):
             for nivel, color in (("bajo", "#2a78d6"), ("alto", "#eb6834")):
                 ax.barh(i, f[nivel] - central[m], left=central[m], height=0.42, color=color,
                         label=f"Valor {nivel} del parámetro" if i == 0 else None, zorder=3)
                 if abs(f[nivel] - central[m]) > 1e-6:
-                    ax.annotate(f"{f[nivel]:.{dec}f}".replace(".", ","), (f[nivel], i),
+                    ax.annotate(_es(f[nivel], dec), (f[nivel], i),
                                 xytext=(4 if f[nivel] > central[m] else -4, 0), textcoords="offset points",
                                 ha="left" if f[nivel] > central[m] else "right", va="center",
                                 fontsize=8.5, color=TINTA2)
@@ -692,6 +709,7 @@ def graficos(res: dict, sens: pd.DataFrame):
         ax.grid(axis="y", visible=False)
         ax.tick_params(length=0)
         ax.margins(x=0.16)
+        _ejes_es(ax, "x")
     fig.subplots_adjust(left=0.3, right=0.97, top=0.86, bottom=0.17, wspace=0.08)
     h, l = axs[0].get_legend_handles_labels()
     fig.legend(h, l, loc="lower center", ncol=2, frameon=False, fontsize=9.5, labelcolor=TINTA2,

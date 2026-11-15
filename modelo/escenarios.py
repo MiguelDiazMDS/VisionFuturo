@@ -457,7 +457,7 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
         ini_1=P["iniciadas"][1], ini_2=P["iniciadas"][0], tension0=None, salto=1.0,
         # canales del escenario E (cero en los demás)
         pagos=0.0, desvio=0.0, cuentas=0.0, ventas_acum=0.0, no_repuestos=0.0, traspasados=0.0,
-        saldo=P["ingresos_2025"] - 45.0, prima_extra=0.0,
+        saldo=-2.4, prima_extra=0.0,   # saldo de 2025 [DIAG 35]; solo lo usa la prima no lineal
     )
     gestion0 = P["frac_gestion_admin"] * P["efectivos_2026"]       # miles de efectivos
     fin_recorte = max([x for x in AÑOS if esc["recorte_resto"][x]], default=AÑO_FIN)
@@ -755,7 +755,6 @@ SENSIBILIDAD_E = [
     ("Prima no lineal con multiplicador 1,3 e histéresis 0,30 (central / adverso)", "P",
      ("prima_no_lineal", "multiplicador", "histeresis"), (0.0, 0.8, 0.15), (1.0, 1.3, 0.30)),
 ]
-SENSIBILIDAD_E_POR_ETIQUETA = [(s[0], s[4]) for s in SENSIBILIDAD_E]   # etiqueta → valor alto
 METRICAS = ["pib_pc_indice", "tasa_paro", "deuda_pib", "gasto_pensiones_pib",
             "salario_neto_real_indice", "precio_renta_años",
             # añadidas con el escenario E
@@ -1207,7 +1206,7 @@ def _tablas_e(res: dict, sens: pd.DataFrame, sens_e: pd.DataFrame) -> list:
 
     # IA: el mismo canal aplicado a B, para no atribuir a E lo que sería de cualquier escenario
     escs = copy.deepcopy(ESCENARIOS)
-    alto = dict(SENSIBILIDAD_E_POR_ETIQUETA)["IA: PTF agregada adicional en 2030-2040 (0 / +0,3 pp al año)"]
+    alto = next(fila[4] for fila in SENSIBILIDAD_E if fila[2] == "ia_ptf_anual")
     escs["B"]["ia_ptf_anual"] = escs["E"]["ia_ptf_anual"] = alto
     b_ia, e_ia = simular(escs["B"], P0).loc[AÑO_FIN], simular(escs["E"], P0).loc[AÑO_FIN]
     out += ["", f"IA: con +{_fmt(alto, 1)} pp al año de PTF en 2030-2040, el PIB per cápita de 2040 pasa de "

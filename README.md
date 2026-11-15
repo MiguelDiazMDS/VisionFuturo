@@ -65,3 +65,14 @@ Requiere Python 3.9 o posterior. El script es determinista, tarda unos segundos 
 El proyecto parte de un marco normativo determinado (reducción del Estado y dinamismo privado) y lo somete a contraste: cada cifra debe llevar fuente, cada mecanismo su evidencia a favor y en contra, y las proyecciones se presentan como escenarios condicionados a supuestos explícitos, no como predicciones.
 
 Las cifras marcadas "(no verificado)" no se pudieron contrastar en fuente primaria y las marcadas "(estimación propia)" son cálculos a partir de cifras publicadas. Buena parte de la literatura académica se cita de memoria como orden de magnitud. Las metas de los bloques son aspiraciones de diseño y no siempre coinciden con los resultados del modelo. El documento integrado usa el modelo como referencia cuantitativa y enumera las discrepancias en su sección 6.5.
+
+## Comprobaciones automáticas
+
+La CI (`.github/workflows/ci.yml`) se ejecuta en cada pull request y en cada push a `main`:
+
+| Comprobación | Qué verifica | En local |
+|---|---|---|
+| Modelo reproducible | Que el modelo se ejecuta y da exactamente los CSV y tablas subidos, y que los datos de la web están sincronizados | `pip install -r modelo/requirements.txt && python3 modelo/escenarios.py && git diff -- modelo/resultados` |
+| Web | Sintaxis de JavaScript y prueba de humo en navegador (escenarios, seis bloques, pestañas, cronología, móvil) | `npm ci && npx playwright install chromium && npm run test:web` |
+| Enlaces | Que los enlaces relativos de los documentos y las rutas de la web existen | `python3 tests/comprobar_enlaces.py` |
+

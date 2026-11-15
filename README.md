@@ -30,6 +30,7 @@ Un modelo de escenarios cuantifica el programa hasta 2040. En el escenario centr
 | [Resultados del modelo](modelo/RESULTADOS.md) | Supuestos, resultados por escenario, terapia de choque, sensibilidad y límites |
 | [Tablas del modelo](modelo/resultados/tablas.md) | Tablas generadas por el código |
 | [Instrucciones del modelo](modelo/README.md) | Estructura del código y cómo modificarlo |
+| [Revisión liberalizadora e IA agéntica](docs/04-revision/01-revision-liberalizadora-ia.md) | Revisión del proyecto contra cinco principios del promotor: diagnóstico, propuestas por ámbito, versión aspiracional y costes |
 
 ## Estructura del repositorio
 

@@ -724,17 +724,62 @@ SENSIBILIDAD = [
     ("Elasticidad precio-oferta de vivienda (1,0 / 2,5)", "P", "elast_precio_viv", 1.0, 2.5),
     ("Participación salarial (−1,5 pp / 0)", "P", "delta_part_salarial", -1.5, 0.0),
 ]
+# Sensibilidad propia del escenario E. Tipos añadidos: 'R' = campo de una reforma de E,
+# con clave (nombre de la reforma, campo). Los de tipo 'E' y 'R' solo se aplican a E; los
+# de tipo 'P' afectan a todos los escenarios (así la prima no lineal se ve también en A, B y D).
+SENSIBILIDAD_E = [
+    # [LIT] Cotización empresarial. El canal central es el de B (Bassanini y Duval: −0,5 pp de
+    # paro por pp de PIB de cuña), que para 1,75 pp de PIB da −0,9 pp. Contraste con una
+    # elasticidad de demanda de trabajo: 5 puntos ≈ 3,8 % del coste laboral; con elasticidad
+    # −0,3 (Hamermesh 1993: −0,15 a −0,75; Lichter, Peichl y Siegloch 2015) y un traslado a
+    # salarios del 50 % (de 0 %, Saez, Schoefer y Seim 2019, a 100 %, Gruber 1997), el empleo
+    # sube ≈0,6 % (rango 0-2,9 %): unos −0,5 pp de paro. El central del modelo es, pues, algo
+    # generoso; el rango 0 a −1,0 por pp de PIB cubre de 0 a −1,75 pp.
+    ("Efecto de la cuña en el paro (0 / −1,0 pp por pp de PIB)", "P", "paro_por_pp_cuña", 0.0, -1.0),
+    ("Rebaja de cotización empresarial (sin rebaja / con rebaja)", "E", "aplicar_rebaja_cotizacion", False, True),
+    ("Coste por punto de cotización (0,30 / 0,40 pp de PIB)", "P", "coste_por_punto_cotizacion", 0.30, 0.40),
+    ("Despido libre, convenio y SMI: efecto adicional en el paro (+0,5 / −1,5 pp)", "R",
+     ("laboral_maximalista", "paro"), 0.5, -1.5),
+    ("Despido libre, convenio y SMI: efecto adicional en la PTF (−0,5 % / +1,0 %)", "R",
+     ("laboral_maximalista", "ptf"), -0.5, 1.0),
+    ("Coste de transición del despido libre (0,2 / 1,0 pp de brecha)", "R",
+     ("laboral_maximalista", "coste_cp"), 0.2, 1.0),
+    ("Ganancia de eficiencia de la provisión privada (0 % / 15 %)", "P", "eficiencia_privada", 0.0, 0.15),
+    ("Pagos obligatorios que recaen en asalariados (47 % / 100 %)", "P", "frac_pagos_sobre_salarios", 0.47, 1.0),
+    ("Rentabilidad real de las cuentas individuales (0 % / 4 %)", "P", "rentab_real_cuentas", 0.0, 4.0),
+    ("IA: PTF agregada adicional en 2030-2040 (0 / +0,3 pp al año)", "E", "ia_ptf_anual", 0.0, 0.3),
+    ("Gestión administrativa en la plantilla (10 % / 22 %)", "P", "frac_gestion_admin", 0.10, 0.22),
+    ("Jubilación anual en gestión administrativa (3,0 % / 5,5 %)", "P", "tasa_jubilacion_gestion", 3.0, 5.5),
+    ("Ahorro de plantilla posterior a 2034 (no se suma / se suma al recorte)", "P", "dividendo_tras_recorte", 0.0, 1.0),
+    ("Prima de riesgo no lineal (desactivada / activada)", "P", "prima_no_lineal", 0.0, 1.0),
+    ("Prima no lineal con multiplicador 1,3 e histéresis 0,30 (central / adverso)", "P",
+     ("prima_no_lineal", "multiplicador", "histeresis"), (0.0, 0.8, 0.15), (1.0, 1.3, 0.30)),
+]
+SENSIBILIDAD_E_POR_ETIQUETA = [(s[0], s[4]) for s in SENSIBILIDAD_E]   # etiqueta → valor alto
 METRICAS = ["pib_pc_indice", "tasa_paro", "deuda_pib", "gasto_pensiones_pib",
-            "salario_neto_real_indice", "precio_renta_años"]
+            "salario_neto_real_indice", "precio_renta_años",
+            # añadidas con el escenario E
+            "saldo_publico_pib", "gasto_total_pib", "pagos_privados_obligatorios_pib",
+            "renta_neta_tras_pagos_indice", "saldo_cuentas_individuales_pib", "efectivos_publicos_miles",
+            "ahorro_no_reposicion_pib"]
 
 
-def sensibilidad(claves=("B", "D")) -> pd.DataFrame:
+def sensibilidad(lista=None, claves=("B", "D", "E"), informe=None) -> pd.DataFrame:
+    """Mueve un parámetro cada vez. `claves`: escenarios a los que se aplican los cambios de
+    tipo 'E' y 'R'; `informe`: escenarios que se simulan y se guardan."""
+    lista = SENSIBILIDAD if lista is None else lista
+    informe = ("A",) + tuple(claves) if informe is None else informe
     filas = []
-    for etiqueta, tipo, clave, bajo, alto in SENSIBILIDAD:
+    for etiqueta, tipo, clave, bajo, alto in lista:
         for nivel, valor in (("bajo", bajo), ("alto", alto)):
             P = copy.deepcopy(P0)
             escs = copy.deepcopy(ESCENARIOS)
-            if isinstance(clave, tuple):
+            if tipo == "R":
+                for k in claves:
+                    for r in escs[k]["reformas"]:
+                        if r["nombre"] == clave[0]:
+                            r[clave[1]] = valor
+            elif isinstance(clave, tuple):
                 P.update(dict(zip(clave, valor)))
                 valor = " y ".join(str(v) for v in valor)
             elif tipo == "P":
@@ -742,11 +787,13 @@ def sensibilidad(claves=("B", "D")) -> pd.DataFrame:
             else:
                 for k in claves:
                     escs[k][clave] = valor
-            for k in ("A",) + tuple(claves):
+            for k in informe:
                 df = simular(escs[k], P)
                 r = df.loc[AÑO_FIN]
                 filas.append(dict(parametro=etiqueta, nivel=nivel, valor=valor, escenario=k,
-                                  **{m: r[m] for m in METRICAS}, paro_max=df["tasa_paro"].max()))
+                                  **{m: r[m] for m in METRICAS}, paro_max=df["tasa_paro"].max(),
+                                  saldo_min=df["saldo_publico_pib"].min(),
+                                  prima_extra_max_pb=df["prima_riesgo_extra_pp"].max() * 100))
     return pd.DataFrame(filas)
 
 
@@ -822,7 +869,7 @@ def _lineas(ax, res, col, base0, titulo, unidad, dec=1, ref=None, etiquetas=True
     _ejes_es(ax)
 
 
-def _leyenda(fig, ax, ncol=4, y=0.0):
+def _leyenda(fig, ax, ncol=5, y=0.0):
     h, l = ax.get_legend_handles_labels()
     fig.legend(h, l, loc="lower center", ncol=ncol, frameon=False, fontsize=9.5,
                labelcolor=TINTA2, bbox_to_anchor=(0.5, y), handlelength=2.4, columnspacing=1.8)
@@ -836,16 +883,17 @@ def graficos(res: dict, sens: pd.DataFrame):
     def simple(col, titulo, unidad, archivo, dec=1, ref=None):
         fig, ax = plt.subplots(figsize=(9.2, 5.4), dpi=150)
         _lineas(ax, res, col, b0, titulo, unidad, dec, ref)
-        fig.subplots_adjust(left=0.07, right=0.89, top=0.86, bottom=0.2)
-        _leyenda(fig, ax, y=0.055)
+        fig.subplots_adjust(left=0.07, right=0.89, top=0.86, bottom=0.23)
+        _leyenda(fig, ax, ncol=3, y=0.05)   # cinco escenarios: dos filas
         fig.text(0.07, 0.02, nota, fontsize=8, color=MUDO)
         fig.savefig(os.path.join(SALIDA, archivo))
         plt.close(fig)
 
-    def doble(c1, t1, u1, d1, c2, t2, u2, d2, archivo, ref1=None, ref2=None):
+    def doble(c1, t1, u1, d1, c2, t2, u2, d2, archivo, ref1=None, ref2=None, claves=None):
+        r = res if claves is None else {k: res[k] for k in claves}
         fig, axs = plt.subplots(1, 2, figsize=(12.4, 5.4), dpi=150)
-        _lineas(axs[0], res, c1, b0, t1, u1, d1, ref1)
-        _lineas(axs[1], res, c2, b0, t2, u2, d2, ref2)
+        _lineas(axs[0], r, c1, b0, t1, u1, d1, ref1)
+        _lineas(axs[1], r, c2, b0, t2, u2, d2, ref2)
         fig.subplots_adjust(left=0.05, right=0.92, top=0.86, bottom=0.2, wspace=0.3)
         _leyenda(fig, axs[0], y=0.055)
         fig.text(0.05, 0.02, nota, fontsize=8, color=MUDO)
@@ -871,6 +919,23 @@ def graficos(res: dict, sens: pd.DataFrame):
           "Miles de viviendas (hogares creados − viviendas terminadas, desde 2021)", -1,
           "precio_renta_años", "Precio de la vivienda / renta del hogar", "Años de renta bruta", 1,
           "08_vivienda.png", ref1=(0, "Déficit absorbido"))
+    # ---- Gráficos añadidos con el escenario E ----
+    doble("gasto_total_pib", "Gasto público total", "% del PIB", 1,
+          "gasto_publico_mas_pagos_pib", "Gasto público más pagos privados obligatorios",
+          "% del PIB (primas, copagos y matrículas que sustituyen a financiación pública)", 1,
+          "10_gasto_publico_y_pagos.png")
+    doble("salario_neto_real_indice", "Salario real neto por ocupado",
+          "Índice, 2025 = 100 (después de cuña fiscal)", 1,
+          "renta_neta_tras_pagos_indice", "Renta salarial neta tras pagos obligatorios",
+          "Índice, 2025 = 100 (después de cuña, primas, copagos y matrículas)", 1,
+          "11_renta_tras_pagos.png")
+    e_fin = res["E"].loc[AÑO_FIN]
+    cambio = e_fin.efectivos_traspasados_miles / (e_fin.efectivos_traspasados_miles + e_fin.efectivos_no_repuestos_miles)
+    doble("efectivos_publicos_miles", "Efectivos públicos",
+          f"Miles (en E, el {cambio * 100:.0f} % de la caída es cambio de empleador, que no ahorra gasto)", 0,
+          "saldo_cuentas_individuales_pib", "Saldo de las cuentas individuales de pensión",
+          "% del PIB (cotizaciones desviadas del reparto; B no las tiene)", 1,
+          "12_efectivos_y_cuentas.png", claves="BE")
 
     # ---- Tornado de sensibilidad (escenario B, 2040) ----
     sb = sens[sens.escenario == "B"]
@@ -933,25 +998,64 @@ FILAS_TABLA = [
     ("Cuña fiscal (%)", "cuña_fiscal", 1),
     ("Déficit de vivienda (miles)", "deficit_vivienda_miles", -1),
     ("Precio vivienda / renta (años)", "precio_renta_años", 1),
+    # filas añadidas con el escenario E
+    ("Pagos privados obligatorios (% PIB)", "pagos_privados_obligatorios_pib", 1),
+    ("Renta salarial neta tras pagos obligatorios (2025 = 100)", "renta_neta_tras_pagos_indice", 0),
+    ("Efectivos públicos (miles)", "efectivos_publicos_miles", -1),
+]
+# Tabla "B frente a E"
+FILAS_B_E = [
+    ("Gasto público total (% PIB)", "gasto_total_pib", 1),
+    ("Ingresos públicos (% PIB)", "ingresos_pib", 1),
+    ("Gasto público en sanidad (% PIB)", "gasto_sanidad_pib", 1),
+    ("Gasto público en educación (% PIB)", "gasto_educacion_pib", 1),
+    ("Pagos privados obligatorios (% PIB)", "pagos_privados_obligatorios_pib", 1),
+    ("Gasto público más pagos obligatorios (% PIB)", "gasto_publico_mas_pagos_pib", 1),
+    ("Efectivos públicos (miles)", "efectivos_publicos_miles", "miles"),
+    ("— traspasados a entidades privadas, acumulado (miles)", "efectivos_traspasados_miles", "miles"),
+    ("— no repuestos en gestión administrativa, acumulado (miles)", "efectivos_no_repuestos_miles", "miles"),
+    ("Ahorro de la no reposición, informativo (% PIB)", "ahorro_no_reposicion_pib", 1),
+    ("Tasa de paro (%)", "tasa_paro", 1),
+    ("Brecha de producción (%)", "brecha_produccion", 1),
+    ("PIB real per cápita (2025 = 100)", "pib_pc_indice", 1),
+    ("Salario real neto por ocupado (2025 = 100)", "salario_neto_real_indice", 1),
+    ("Renta salarial neta tras pagos obligatorios (2025 = 100)", "renta_neta_tras_pagos_indice", 1),
+    ("Cuña fiscal (%)", "cuña_fiscal", 1),
+    ("Saldo público (% PIB)", "saldo_publico_pib", 1),
+    ("Deuda pública (% PIB)", "deuda_pib", 1),
+    ("Saldo de las cuentas individuales (% PIB)", "saldo_cuentas_individuales_pib", 1),
+    ("Deuda menos saldo de las cuentas individuales (% PIB)", "_deuda_menos_cuentas", 1),
 ]
 
 
 def _fmt(v, dec):
+    if dec == "miles":
+        return _es(v, 0)
     if dec < 0:
         return f"{round(v, dec):,.0f}".replace(",", ".")
     v = 0.0 if abs(v) < 0.5 * 10 ** -dec else v
     return f"{v:.{dec}f}".replace(".", ",")
 
 
-def tablas(res: dict, sens: pd.DataFrame) -> str:
+def _desde(mejor: pd.Series) -> str:
+    """Primer año a partir del cual una condición se cumple sin interrupción hasta 2040."""
+    if not mejor.iloc[-1]:
+        return "no antes de 2040"
+    falla = mejor[~mejor]
+    return str(AÑOS[0] if falla.empty else falla.index[-1] + 1)
+
+
+def tablas(res: dict, sens: pd.DataFrame, sens_e: pd.DataFrame) -> str:
     for df in res.values():
         df["_crec_medio"] = ((df["pib_real_mmEUR"] / P0["pib_2025"]) ** (1 / (df.index - AÑO_BASE)) - 1) * 100
+        df["_deuda_menos_cuentas"] = df["deuda_pib"] - df["saldo_cuentas_individuales_pib"]
     out = ["<!-- Generado por escenarios.py: no editar a mano -->", ""]
     for año in (2030, 2035, 2040):
-        out += [f"### {año}", "", "| Indicador | A · Inercial | B · Central | C · Efectos bajos | D · Choque |",
-                "|---|---|---|---|---|"]
+        out += [f"### {año}", "",
+                "| Indicador | A · Inercial | B · Central | C · Efectos bajos | D · Choque | E · Maximalista |",
+                "|---|---|---|---|---|---|"]
         for nombre, col, dec in FILAS_TABLA:
-            out.append(f"| {nombre} | " + " | ".join(_fmt(res[k].loc[año, col], dec) for k in "ABCD") + " |")
+            out.append(f"| {nombre} | " + " | ".join(_fmt(res[k].loc[año, col], dec) for k in "ABCDE") + " |")
         out.append("")
     out += ["### Trayectoria de la terapia de choque frente a la central (2027-2032)", "",
             "| Año | Brecha B | Brecha D | Paro B | Paro D | Deuda B | Deuda D | Histéresis acum. D (% PIB pot.) |",
@@ -963,9 +1067,9 @@ def tablas(res: dict, sens: pd.DataFrame) -> str:
                    f"{_fmt(dd.deuda_pib, 0)} | {_fmt(dd.histeresis_acum_pct, 1)} |")
     perdida = lambda k: -(res[k]["brecha_produccion"].clip(upper=0)).sum()
     out += ["", "PIB perdido por brecha negativa, acumulado 2026-2040 (puntos-año de PIB): "
-            + "; ".join(f"{k} = {_fmt(perdida(k), 1)}" for k in "ABCD") + ".", "",
+            + "; ".join(f"{k} = {_fmt(perdida(k), 1)}" for k in "ABCDE") + ".", "",
             "Paro máximo: " + "; ".join(
-                f"{k} = {_fmt(res[k]['tasa_paro'].max(), 1)} % ({res[k]['tasa_paro'].idxmax()})" for k in "ABCD") + "."]
+                f"{k} = {_fmt(res[k]['tasa_paro'].max(), 1)} % ({res[k]['tasa_paro'].idxmax()})" for k in "ABCDE") + "."]
     # Variante auxiliar: el mismo ajuste total que D, pero al ritmo de B (8 años) y con
     # las reformas escalonadas como en B. Separa el efecto de la velocidad del efecto del tamaño.
     dg = copy.deepcopy(ESCENARIOS["B"])
@@ -985,6 +1089,7 @@ def tablas(res: dict, sens: pd.DataFrame) -> str:
             ("Deuda 2032 (% PIB)", lambda x: x["deuda_pib"].loc[2032], 0),
             ("Deuda 2040 (% PIB)", lambda x: x["deuda_pib"].iloc[-1], 0)]:
         out.append(f"| {nombre} | {_fmt(f(d_), dec)} | {_fmt(f(g), dec)} |")
+    out += _tablas_e(res, sens, sens_e)
     out += ["", "### Sensibilidad (valores en 2040; valor bajo → valor alto del parámetro)", "",
             "| Parámetro | PIB pc B | Paro B (%) | Deuda B | Deuda A | Salario neto B | Precio/renta B | Deuda D | PIB pc D | Paro máx. D (%) |",
             "|---|---|---|---|---|---|---|---|---|---|"]
@@ -997,6 +1102,121 @@ def tablas(res: dict, sens: pd.DataFrame) -> str:
                    f"{g('D', 'paro_max', 1)} |")
     out.append("")
     return "\n".join(out)
+
+
+def _tablas_e(res: dict, sens: pd.DataFrame, sens_e: pd.DataFrame) -> list:
+    """Tablas del escenario E: comparación con B, transición y sensibilidad propia."""
+    B, E = res["B"], res["E"]
+    out = ["", "### B frente a E (versión contrastada frente a versión maximalista)", "",
+           "| Indicador | B 2030 | E 2030 | B 2035 | E 2035 | B 2040 | E 2040 |", "|---|---|---|---|---|---|---|"]
+    for nombre, col, dec in FILAS_B_E:
+        out.append(f"| {nombre} | " + " | ".join(
+            _fmt(df.loc[a, col], dec) for a in (2030, 2035, 2040) for df in (B, E)) + " |")
+    # En B el paro más alto es el de partida (2026); se da también el máximo desde 2027
+    pico = lambda df: (f"{_fmt(df['tasa_paro'].max(), 1)} % ({df['tasa_paro'].idxmax()}); desde 2027, "
+                       f"{_fmt(df['tasa_paro'].loc[2027:].max(), 1)} % ({df['tasa_paro'].loc[2027:].idxmax()})")
+    bajo_1 = E.index[E["brecha_produccion"] < -1]
+    dif_gasto = B.loc[AÑO_FIN, "gasto_total_pib"] - E.loc[AÑO_FIN, "gasto_total_pib"]
+    pagos = E.loc[AÑO_FIN, "pagos_privados_obligatorios_pib"]
+    out += ["", f"Paro máximo: B = {pico(B)}. E = {pico(E)}.", "",
+            f"Brecha de producción mínima: B = {_fmt(B['brecha_produccion'].min(), 1)} % "
+            f"({B['brecha_produccion'].idxmin()}); E = {_fmt(E['brecha_produccion'].min(), 1)} % "
+            f"({E['brecha_produccion'].idxmin()}). Años con la brecha de E por debajo de −1 % (umbral de la "
+            "cláusula cíclica de la regla de gasto, que el modelo NO aplica): "
+            + (f"{bajo_1[0]}-{bajo_1[-1]} ({len(bajo_1)} años)" if len(bajo_1) else "ninguno") + ".", "",
+            f"Saldo público mínimo: B = {_fmt(B['saldo_publico_pib'].min(), 1)} % ({B['saldo_publico_pib'].idxmin()}); "
+            f"E = {_fmt(E['saldo_publico_pib'].min(), 1)} % ({E['saldo_publico_pib'].idxmin()}). "
+            f"Años con déficit de E superior al 3 %: {int((E['saldo_publico_pib'] < -3).sum())}; de B: "
+            f"{int((B['saldo_publico_pib'] < -3).sum())}.", "",
+            f"Gasto público en 2040: E queda {_fmt(dif_gasto, 1)} pp por debajo de B; los pagos privados "
+            f"obligatorios de E suman {_fmt(pagos, 1)} pp ({_fmt(pagos / dif_gasto * 100, 0)} % de esa diferencia).", "",
+            "Ingresos que E deja de recaudar en 2040 frente a la senda sin medidas: cotización empresarial "
+            f"{_fmt(P0['coste_por_punto_cotizacion'] * sum(ESCENARIOS['E']['puntos_cotizacion'].values()), 2)} pp, "
+            f"desvío a cuentas individuales {_fmt(E.loc[AÑO_FIN, 'cotizaciones_desviadas_pib'], 2)} pp.", "",
+            "Año desde el que E mejora a B de forma sostenida hasta 2040: "
+            f"PIB per cápita, {_desde(E['pib_pc_indice'] > B['pib_pc_indice'])}; "
+            f"tasa de paro, {_desde(E['tasa_paro'] < B['tasa_paro'])}; "
+            f"saldo público, {_desde(E['saldo_publico_pib'] > B['saldo_publico_pib'])}; "
+            f"deuda, {_desde(E['deuda_pib'] < B['deuda_pib'])}; "
+            f"deuda menos cuentas individuales, {_desde(E['_deuda_menos_cuentas'] < B['_deuda_menos_cuentas'])}; "
+            f"salario neto, {_desde(E['salario_neto_real_indice'] > B['salario_neto_real_indice'])}; "
+            "renta neta tras pagos obligatorios, "
+            f"{_desde(E['renta_neta_tras_pagos_indice'] > B['renta_neta_tras_pagos_indice'])}."]
+
+    out += ["", "### Transición del escenario E frente a B (2027-2036)", "",
+            "| Año | Brecha B | Brecha E | Paro B | Paro E | Saldo B | Saldo E | Deuda B | Deuda E | "
+            "PIB pc B | PIB pc E | Efectivos E (miles) | Pagos privados E (% PIB) |",
+            "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    for a in range(2027, 2037):
+        b, e = B.loc[a], E.loc[a]
+        out.append(f"| {a} | {_fmt(b.brecha_produccion, 1)} | {_fmt(e.brecha_produccion, 1)} | "
+                   f"{_fmt(b.tasa_paro, 1)} | {_fmt(e.tasa_paro, 1)} | {_fmt(b.saldo_publico_pib, 1)} | "
+                   f"{_fmt(e.saldo_publico_pib, 1)} | {_fmt(b.deuda_pib, 0)} | {_fmt(e.deuda_pib, 0)} | "
+                   f"{_fmt(b.pib_pc_indice, 1)} | {_fmt(e.pib_pc_indice, 1)} | "
+                   f"{_fmt(e.efectivos_publicos_miles, 'miles')} | {_fmt(e.pagos_privados_obligatorios_pib, 1)} |")
+
+    def fila(tabla, etiqueta, celdas):
+        t = tabla[tabla.parametro == etiqueta].set_index(["escenario", "nivel"])
+        return f"| {etiqueta} | " + " | ".join(
+            f"{_fmt(t.loc[(k, 'bajo'), m], dec)} → {_fmt(t.loc[(k, 'alto'), m], dec)}" for k, m, dec in celdas) + " |"
+
+    e40 = E.loc[AÑO_FIN]
+    out += ["", "### Sensibilidad del escenario E (valores en 2040; valor bajo → valor alto del parámetro)", "",
+            f"Central de E: PIB per cápita {_fmt(e40.pib_pc_indice, 1)}; paro {_fmt(e40.tasa_paro, 1)} % "
+            f"(máximo {_fmt(E['tasa_paro'].max(), 1)} %); saldo {_fmt(e40.saldo_publico_pib, 1)} %; deuda "
+            f"{_fmt(e40.deuda_pib, 0)} %; renta neta tras pagos {_fmt(e40.renta_neta_tras_pagos_indice, 1)}. "
+            f"Central de B: PIB per cápita {_fmt(B.loc[AÑO_FIN, 'pib_pc_indice'], 1)}; paro "
+            f"{_fmt(B.loc[AÑO_FIN, 'tasa_paro'], 1)} %; deuda {_fmt(B.loc[AÑO_FIN, 'deuda_pib'], 0)} %.", "",
+            "| Parámetro | PIB pc E | Paro E (%) | Paro máx. E (%) | Saldo E (% PIB) | Deuda E | "
+            "Renta neta tras pagos E | PIB pc B | Deuda B |", "|---|---|---|---|---|---|---|---|---|"]
+    celdas = [("E", "pib_pc_indice", 1), ("E", "tasa_paro", 1), ("E", "paro_max", 1), ("E", "saldo_publico_pib", 1),
+              ("E", "deuda_pib", 0), ("E", "renta_neta_tras_pagos_indice", 1), ("B", "pib_pc_indice", 1),
+              ("B", "deuda_pib", 0)]
+    for etiqueta, *_ in SENSIBILIDAD:
+        out.append(fila(sens, etiqueta, celdas))
+    for etiqueta, *_ in SENSIBILIDAD_E:
+        out.append(fila(sens_e, etiqueta, celdas))
+
+    out += ["", "### Sensibilidad de las variables nuevas de E (2040)", "",
+            "| Parámetro | Pagos privados (% PIB) | Renta neta tras pagos | Cuentas individuales (% PIB) | "
+            "Efectivos públicos (miles) | Ahorro de la no reposición (% PIB) | Gasto público total (% PIB) |",
+            "|---|---|---|---|---|---|---|"]
+    celdas = [("E", "pagos_privados_obligatorios_pib", 1), ("E", "renta_neta_tras_pagos_indice", 1),
+              ("E", "saldo_cuentas_individuales_pib", 1), ("E", "efectivos_publicos_miles", "miles"),
+              ("E", "ahorro_no_reposicion_pib", 2), ("E", "gasto_total_pib", 1)]
+    for etiqueta in ("Ganancia de eficiencia de la provisión privada (0 % / 15 %)",
+                     "Pagos obligatorios que recaen en asalariados (47 % / 100 %)",
+                     "Coste por punto de cotización (0,30 / 0,40 pp de PIB)",
+                     "Rentabilidad real de las cuentas individuales (0 % / 4 %)",
+                     "Gestión administrativa en la plantilla (10 % / 22 %)",
+                     "Jubilación anual en gestión administrativa (3,0 % / 5,5 %)",
+                     "Ahorro de plantilla posterior a 2034 (no se suma / se suma al recorte)"):
+        out.append(fila(sens_e, etiqueta, celdas))
+
+    out += ["", "### Prima de riesgo no lineal (opción desactivada por defecto; desactivada → activada)", "",
+            "| Escenario | Prima extra máxima (pb) | Paro máximo (%) | PIB pc 2040 | Saldo 2040 (% PIB) | Deuda 2040 (% PIB) |",
+            "|---|---|---|---|---|---|"]
+    for etiqueta, sufijo in (("Prima de riesgo no lineal (desactivada / activada)", ""),
+                             ("Prima no lineal con multiplicador 1,3 e histéresis 0,30 (central / adverso)",
+                              " · con multiplicador 1,3 e histéresis 0,30")):
+        t = sens_e[sens_e.parametro == etiqueta].set_index(["escenario", "nivel"])
+        for k in "ABDE":
+            g = lambda m, dec: f"{_fmt(t.loc[(k, 'bajo'), m], dec)} → {_fmt(t.loc[(k, 'alto'), m], dec)}"
+            out.append(f"| {k}{sufijo} | {g('prima_extra_max_pb', 0)} | {g('paro_max', 1)} | "
+                       f"{g('pib_pc_indice', 1)} | {g('saldo_publico_pib', 1)} | {g('deuda_pib', 0)} |")
+
+    # IA: el mismo canal aplicado a B, para no atribuir a E lo que sería de cualquier escenario
+    escs = copy.deepcopy(ESCENARIOS)
+    alto = dict(SENSIBILIDAD_E_POR_ETIQUETA)["IA: PTF agregada adicional en 2030-2040 (0 / +0,3 pp al año)"]
+    escs["B"]["ia_ptf_anual"] = escs["E"]["ia_ptf_anual"] = alto
+    b_ia, e_ia = simular(escs["B"], P0).loc[AÑO_FIN], simular(escs["E"], P0).loc[AÑO_FIN]
+    out += ["", f"IA: con +{_fmt(alto, 1)} pp al año de PTF en 2030-2040, el PIB per cápita de 2040 pasa de "
+            f"{_fmt(e40.pib_pc_indice, 1)} a {_fmt(e_ia.pib_pc_indice, 1)} en E y de "
+            f"{_fmt(B.loc[AÑO_FIN, 'pib_pc_indice'], 1)} a {_fmt(b_ia.pib_pc_indice, 1)} en B si el mismo canal se "
+            f"aplica a B; la deuda, de {_fmt(e40.deuda_pib, 0)} a {_fmt(e_ia.deuda_pib, 0)} en E y de "
+            f"{_fmt(B.loc[AÑO_FIN, 'deuda_pib'], 0)} a {_fmt(b_ia.deuda_pib, 0)} en B. El modelo no dice cuánta "
+            "de esa ganancia depende de las políticas de E."]
+    return out
 
 
 def comprobaciones(res: dict):
@@ -1020,6 +1240,21 @@ def comprobaciones(res: dict):
         assert df.notna().all().all(), f"NaN en el escenario {k}"
         assert (df["tasa_paro"].between(3, 20)).all(), f"paro fuera de rango en {k}"
         assert (df["deuda_pib"].between(30, 200)).all(), f"deuda fuera de rango en {k}"
+        if k != "E":   # los canales de E no deben mover nada en los demás escenarios
+            assert (df["efectivos_publicos_miles"] == P0["efectivos_2026"]).all(), k
+            assert (df["renta_neta_tras_pagos_indice"] == df["salario_neto_real_indice"]).all(), k
+            for c in ("pagos_privados_obligatorios_pib", "saldo_cuentas_individuales_pib",
+                      "cotizaciones_desviadas_pib", "ventas_activos_pib", "prima_riesgo_extra_pp"):
+                assert (df[c] == 0).all(), f"{c} distinto de cero en {k}"
+    E = res["E"].loc[AÑO_FIN]
+    print("\nComprobaciones del escenario maximalista (E), 2040:")
+    print(f"  Efectivos: {E.efectivos_publicos_miles:,.0f} mil = {P0['efectivos_2026']:,.0f} − "
+          f"{E.efectivos_traspasados_miles:,.0f} traspasados − {E.efectivos_no_repuestos_miles:,.0f} no repuestos")
+    print(f"  Gasto público sanitario: {E.gasto_sanidad_pib:.1f} % del PIB (objetivo del archivo de parámetros: "
+          "≈4,6 %; la deriva por envejecimiento, +0,065 pp al año, sigue operando)")
+    print(f"  Gasto público educativo: {E.gasto_educacion_pib:.1f} % del PIB (objetivo: ≈3,4 %)")
+    assert abs(E.efectivos_publicos_miles + E.efectivos_traspasados_miles + E.efectivos_no_repuestos_miles
+               - P0["efectivos_2026"]) < 1e-6
 
 
 def main():
@@ -1028,12 +1263,15 @@ def main():
     for k, df in res.items():
         df.round(3).to_csv(os.path.join(SALIDA, f"escenario_{k}.csv"), encoding="utf-8")
     sens = sensibilidad()
-    sens.round(3).to_csv(os.path.join(SALIDA, "sensibilidad.csv"), index=False, encoding="utf-8")
+    sens_e = sensibilidad(SENSIBILIDAD_E, claves=("E",), informe=("A", "B", "D", "E"))
+    pd.concat([sens, sens_e]).round(3).to_csv(os.path.join(SALIDA, "sensibilidad.csv"), index=False,
+                                               encoding="utf-8")
     comprobaciones(res)
-    md = tablas(res, sens)
+    md = tablas(res, sens, sens_e)
     with open(os.path.join(SALIDA, "tablas.md"), "w", encoding="utf-8") as f:
         f.write(md)
     resumen = pd.concat({k: df.loc[[2030, 2035, 2040]] for k, df in res.items()}, names=["escenario"])
+    resumen = resumen.drop(columns="_deuda_menos_cuentas")
     resumen.round(3).to_csv(os.path.join(SALIDA, "resumen_2030_2035_2040.csv"), encoding="utf-8")
     try:
         graficos(res, sens)

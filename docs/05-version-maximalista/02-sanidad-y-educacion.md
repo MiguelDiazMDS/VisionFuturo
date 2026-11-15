@@ -9,7 +9,7 @@
 | Versión contrastada | Versión maximalista |
 |---|---|
 | Sistema Nacional de Salud financiado con impuestos; libre elección de médico y hospital dentro del SNS | Seguro sanitario obligatorio con paquete básico fijado por ley, aseguradoras en competencia, admisión obligatoria, prima comunitaria y compensación de riesgos |
-| Gasto público sanitario en torno al 6,6 % del PIB | Objetivo de cerca del 4,6 %: −0,2 puntos al año entre 2029 y 2038 |
+| Gasto público sanitario en torno al 6,6 % del PIB, al alza por el envejecimiento | Retirada de 0,2 puntos de PIB al año entre 2029 y 2038 frente a la senda sin reforma. En el modelo queda en el 5,5 % en 2040, frente al 7,3 % de la versión contrastada |
 | Sin copagos nuevos | Copago del 10 % del coste, con tope anual del 2 % de la renta del hogar; exentas las rentas bajas |
 | Gestión directa por defecto; contratos privados con indicadores públicos | Todos los centros públicos pasan a entidades privadas o autónomas entre 2029 y 2033 |
 | Financiación ponderada por alumno en pública y concertada; prohibición efectiva de copagos | Cheque por alumno portátil a cualquier centro acreditado, íntegro de 3 a 16 años |
@@ -167,7 +167,7 @@ Los niveles suben por tasa de error frente al proceso humano en muestra ciega y 
 
 ## 8. Qué queda sin resolver
 
-- **La escala del subsidio.** Sin microdatos de renta y gasto sanitario por edad, el 4,6 % es una cifra de política, no un resultado.
+- **La escala del subsidio.** Sin microdatos de renta y gasto sanitario por edad, la retirada de 2,0 puntos es una cifra de política, no un resultado.
 - **Las competencias autonómicas.** Sanidad y educación son de gestión autonómica; una comunidad de signo contrario puede retrasar el traspaso [R §8].
 - **La compensación de riesgos** que exige el modelo holandés no existe en España; la de Muface se limita a tramos de edad (no verificado).
 - **La oferta rural**: falta decidir si se financian obligaciones de servicio universal, que serían gasto público fuera del objetivo.

@@ -44,12 +44,16 @@
     { clave: "pensiones", nombre: "Gasto en pensiones", unidad: "% del PIB", dec: 1, corto: "Pensiones", suf: " %" },
     { clave: "salario", nombre: "Salario real neto por ocupado", unidad: "índice, 2025 = 100", dec: 0, corto: "Salario neto" },
     { clave: "vivienda", nombre: "Déficit acumulado de vivienda", unidad: "miles de viviendas", dec: 0, corto: "Déficit de vivienda", suf: " mil" },
-    { clave: "productividad", nombre: "Productividad por hora", unidad: "índice, 2025 = 100", dec: 0, corto: "Productividad" }
+    { clave: "productividad", nombre: "Productividad por hora", unidad: "índice, 2025 = 100", dec: 0, corto: "Productividad" },
+    { clave: "gasto", nombre: "Gasto público", unidad: "% del PIB", dec: 1, corto: "Gasto público", suf: " %" },
+    { clave: "pagos", nombre: "Pagos obligatorios de los hogares por sanidad y educación", unidad: "% del PIB", dec: 1, corto: "Pagos de los hogares", suf: " %" },
+    { clave: "renta", nombre: "Renta salarial neta tras esos pagos", unidad: "índice, 2025 = 100", dec: 0, corto: "Renta tras pagos" },
+    { clave: "efectivos", nombre: "Empleados públicos", unidad: "miles de efectivos", dec: 0, corto: "Empleados públicos", suf: " mil" }
   ];
   var estado = { esc: "B", ind: "pib", dibujado: false };
 
   var M = window.MODELO;
-  if (M.E) ESCENARIOS.push({ id: "E", nombre: "Maximalista", color: "var(--maximalista)", hex: "#A55B12", trazo: "", explica: window.EXPLICA_E || "La versión maximalista del programa." });
+  if (M.E) ESCENARIOS.push({ id: "E", nombre: "Maximalista", color: "var(--maximalista)", hex: "#A55B12", trazo: "", explica: "Estado reducido a seguridad y justicia, seguro obligatorio en sanidad, cheque en educación, cuentas individuales de pensión y despido libre desde 2029. El gasto público baja, pero la mayor parte reaparece como pagos de los hogares. Supone que la reforma constitucional se aprueba." });
   var anios = M.A.anios;
 
   // Primer año en que el central supera al inercial y ya no vuelve a quedar por debajo.
@@ -540,7 +544,24 @@
     document.getElementById("enlace-secuencia").href = REPO + X.docSecuencia;
 
     // Comparación numérica: solo si el modelo ya incluye el escenario maximalista.
-    if (!M.E || !window.FRENTE) return;
+    if (!M.E) return;
+    var u = 14, B = M.B, E = M.E;
+    function maxDesde2027(serie) { var m = -1, a = 0; serie.forEach(function (v, i) { if (anios[i] >= 2027 && v > m) { m = v; a = anios[i]; } }); return [m, a]; }
+    var mb = maxDesde2027(B.paro), me = maxDesde2027(E.paro);
+    var bajada = B.gasto[u] - E.gasto[u];
+    var FRENTE = [
+      { nombre: "Gasto público", central: num(B.gasto[u], 1) + " %", maximalista: num(E.gasto[u], 1) + " %", lectura: "Del PIB. Baja " + num(bajada, 1) + " puntos." },
+      { nombre: "Pagos obligatorios de los hogares", central: num(B.pagos[u], 1) + " %", maximalista: num(E.pagos[u], 1) + " %", lectura: "Del PIB, en primas, copagos y matrículas. Equivalen al " + num(E.pagos[u] / bajada * 100, 0) + " % de la bajada del gasto público." },
+      { nombre: "Empleados públicos", central: num(B.efectivos[u] / 1000, 2) + " M", maximalista: num(E.efectivos[u] / 1000, 2) + " M", lectura: num(E.traspasados[u] / 1000, 2) + " millones cambian de empleador y " + num(E.norepuestos[u], 0) + ".000 no se reponen." },
+      { nombre: "Paro", central: num(B.paro[u], 1) + " %", maximalista: num(E.paro[u], 1) + " %", lectura: "Con un máximo del " + num(me[0], 1) + " % en " + me[1] + ", frente al " + num(mb[0], 1) + " % del central." },
+      { nombre: "PIB per cápita", central: num(B.pib[u], 1), maximalista: num(E.pib[u], 1), lectura: "Índice, 2025 = 100. No supera al central antes de 2040." },
+      { nombre: "Salario neto", central: num(B.salario[u], 1), maximalista: num(E.salario[u], 1), lectura: "Índice, 2025 = 100. Sube más por la menor cuña fiscal." },
+      { nombre: "Renta neta tras pagos obligatorios", central: num(B.renta[u], 1), maximalista: num(E.renta[u], 1), lectura: "Lo que queda del salario neto después de pagar sanidad y educación." },
+      { nombre: "Deuda pública", central: num(B.deuda[u], 1) + " %", maximalista: num(E.deuda[u], 1) + " %", lectura: "Del PIB. De la diferencia, 2,4 puntos son ventas de activos." },
+      { nombre: "Saldo público", central: num(B.saldo[u], 1) + " %", maximalista: num(E.saldo[u], 1) + " %", lectura: "Del PIB. Peor que el central entre 2029 y 2035; mejor desde 2036." },
+      { nombre: "Ahorro en cuentas individuales", central: num(B.cuentas[u], 1) + " %", maximalista: num(E.cuentas[u], 1) + " %", lectura: "Del PIB. Patrimonio de los trabajadores, no del Estado." }
+    ];
+    window.FRENTE = FRENTE;
     var ft = document.getElementById("frente-tabla");
     ft.appendChild(el("thead", null, [el("tr", null, [
       el("th", { scope: "col", text: "En 2040" }), el("th", { scope: "col", text: "Central" }), el("th", { scope: "col", text: "Maximalista" }), el("th", { scope: "col", text: "Lectura" })

@@ -51,7 +51,7 @@ La lista positiva fija quién produce, no quién financia. Sanidad, educación y
 
 Reforma de la LO 2/2012 (176 votos). El gasto primario del conjunto de las administraciones no crece en términos reales hasta alcanzar un objetivo de gasto sobre PIB fijado por ley. Los ingresos imprevistos reducen deuda. Se suprime la reserva de ingresos del bloque 06.
 
-En el modelo la regla se traduce en un recorte de 3,0 puntos de PIB entre 2027 y 2034 del gasto que no es pensiones, sanidad ni educación [SUP], unos 0,375 puntos al año. Sanidad y educación tienen sendas propias: de 6,6 a cerca de 4,6 puntos y de 4,2 a cerca de 3,4 [SUP]. La cifra objetivo final de gasto sobre PIB sale del escenario E: véase el escenario E del modelo (`modelo/RESULTADOS.md`).
+En el modelo la regla se traduce en un recorte de 3,0 puntos de PIB entre 2027 y 2034 del gasto que no es pensiones, sanidad ni educación [SUP], unos 0,375 puntos al año. Sanidad y educación tienen sendas propias: una retirada de 2,0 puntos en sanidad y de 0,8 en educación frente a la senda sin reforma [SUP]. En el escenario E del modelo ([resultados](../../modelo/RESULTADOS.md)) el gasto público sanitario queda en el 5,5 % del PIB en 2040, porque el envejecimiento lo empuja al alza, y el educativo en el 3,4 %. El gasto público total baja al 41,0 % del PIB, frente al 44,2 % de la versión contrastada.
 
 La aritmética que se deduce de los parámetros, en puntos de PIB a régimen y sin efectos de segunda ronda, es esta:
 

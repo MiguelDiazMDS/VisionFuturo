@@ -35,13 +35,13 @@ try {
   await p.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.abort());
   await p.goto(url, { waitUntil: "load" });
 
-  comprobar((await p.locator("#grafico svg path").count()) === 4, "El gráfico no dibuja los cuatro escenarios");
+  comprobar((await p.locator("#grafico svg path").count()) === 5, "El gráfico no dibuja los cinco escenarios");
   comprobar((await p.locator("#nota-cruce strong").textContent())?.match(/^20\d\d$/), "Falta el año de cruce en la portada");
   for (const ind of await p.locator("#indicador option").evaluateAll((os) => os.map((o) => o.value))) {
     await p.selectOption("#indicador", ind);
-    comprobar((await p.locator("#grafico svg path").count()) === 4, `Indicador ${ind}: faltan series`);
+    comprobar((await p.locator("#grafico svg path").count()) === 5, `Indicador ${ind}: faltan series`);
   }
-  for (const esc of ["A", "B", "C", "D"]) {
+  for (const esc of ["A", "B", "C", "D", "E"]) {
     await p.click(`[data-esc="${esc}"]`);
     comprobar((await p.getAttribute(`[data-esc="${esc}"]`, "aria-checked")) === "true", `Escenario ${esc} no se selecciona`);
   }
@@ -59,6 +59,11 @@ try {
       comprobar(await p.locator(`#pp-${pest}`).isVisible(), `${nombre}: la pestaña ${pest} no se abre`);
     }
   }
+
+  comprobar((await p.locator("#comparativa tbody tr").count()) === 7, "La comparación de versiones no tiene siete ámbitos");
+  comprobar(await p.locator("#frente").isVisible(), "No se muestra la tabla central frente a maximalista");
+  comprobar((await p.locator("#frente-tabla tbody tr").count()) >= 8, "La tabla central frente a maximalista está incompleta");
+  comprobar((await p.locator("#capas li").count()) === 4, "Faltan capas del Estado agéntico");
 
   const fases = await p.locator(".fase-rect").count();
   comprobar(fases === 5, `Se esperaban 5 fases y hay ${fases}`);

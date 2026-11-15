@@ -14,9 +14,16 @@ CAMPOS = {
     "salario_neto_real_indice": "salario",
     "deficit_vivienda_miles": "vivienda",
     "productividad_hora_indice": "productividad",
+    "gasto_total_pib": "gasto",
+    "pagos_privados_obligatorios_pib": "pagos",
+    "renta_neta_tras_pagos_indice": "renta",
+    "efectivos_publicos_miles": "efectivos",
+    "efectivos_traspasados_miles": "traspasados",
+    "efectivos_no_repuestos_miles": "norepuestos",
+    "saldo_cuentas_individuales_pib": "cuentas",
 }
 datos = {}
-for esc in "ABCD":
+for esc in "ABCDE":
     filas = list(csv.DictReader(open(RAIZ / f"modelo/resultados/escenario_{esc}.csv", encoding="utf-8")))
     serie = {"anios": [int(f["año"]) for f in filas]}
     for col, clave in CAMPOS.items():

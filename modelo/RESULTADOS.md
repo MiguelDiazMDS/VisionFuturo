@@ -11,6 +11,7 @@ Las cifras de este documento son **escenarios condicionados a supuestos explíci
 - **Con efectos bajos (C), la consolidación sigue funcionando por pura aritmética, y el dividendo de crecimiento casi desaparece:** +2 % de PIB per cápita y un paro prácticamente igual al inercial.
 - **La terapia de choque (D) no es contraproducente para la deuda en este modelo, y sí es mucho más costosa en la transición:** el paro sube hasta cerca del 12 % en 2029 (unos 13-14 % con multiplicador e histéresis altos), el PIB per cápita se estanca tres años y la deuda no mejora respecto a B hasta 2029.
 - **Lo que más mueve los resultados no son las reformas:** son el crecimiento tendencial de la productividad, la migración y el tipo de interés.
+- **La versión maximalista (E, §9) baja el gasto público al 41 % del PIB, pero el 84 % de la diferencia con B reaparece como pagos obligatorios de los hogares.** Termina con menos déficit y menos deuda que B, con un paro parecido, y con un PIB per cápita algo menor y una renta salarial neta tras pagos obligatorios claramente menor.
 
 ## 2. Cómo funciona el modelo
 
@@ -178,7 +179,7 @@ Valores en 2040 al mover un parámetro cada vez (valor bajo → valor alto).
 
 1. **No es un DSGE ni hay equilibrio general.** No hay precios, salarios ni tipos que se ajusten para vaciar mercados, ni sector exterior, ni BCE, ni expectativas. Los efectos de las reformas se imponen desde fuera con cifras de la literatura; el modelo no los explica.
 2. **No valida el tamaño de los efectos.** Si la literatura sobrestima lo que la desregulación aporta en un país como España (Nueva Zelanda liberalizó y no convergió), el resultado relevante es C, no B. El modelo no dice cuál es más probable.
-3. **La natalidad no se modeliza de forma causal.** La población es la proyección del INE, igual en los cuatro escenarios. No hay efecto de la vivienda, el empleo o los recortes sobre la fecundidad ni sobre la emancipación, y la migración no responde a la economía.
+3. **La natalidad no se modeliza de forma causal.** La población es la proyección del INE, igual en todos los escenarios. No hay efecto de la vivienda, el empleo o los recortes sobre la fecundidad ni sobre la emancipación, y la migración no responde a la economía.
 4. **No hay distribución.** Todo son medias: nada sobre decilas, territorios, jóvenes frente a pensionistas ni perdedores concretos. Un salario medio un 8 % mayor es compatible con pérdidas para grupos amplios.
 5. **No dice si el recorte es factible.** Los 2,4-3,6 puntos de recorte son una entrada. El modelo no identifica partidas ni contempla que recortar educación, sanidad o inversión reduzca la productividad futura.
 6. **Subestima los riesgos de cola.** No hay recesiones exógenas, crisis financieras, dinámica no lineal de la prima de riesgo, histéresis convexa ni reversión política de las reformas. Las trayectorias son suaves porque el modelo lo es.
@@ -187,8 +188,48 @@ Valores en 2040 al mover un parámetro cada vez (valor bajo → valor alto).
 9. **Los datos de partida tienen huecos.** Heredan las marcas "(no verificado)" del diagnóstico (gasto total de 2025, déficit estructural), y las magnitudes de la literatura se citan de memoria.
 10. **No es una previsión.** 2026 parte de una economía sin brecha de producción y sin el shock energético más allá del déficit; los primeros años no deben leerse como coyuntura.
 
-## 9. Archivos
+## 9. Escenario E: la versión maximalista
 
-- Series anuales: `resultados/escenario_A.csv` a `escenario_D.csv`; resumen en `resultados/resumen_2030_2035_2040.csv`; sensibilidad en `resultados/sensibilidad.csv`.
-- Gráficos: `resultados/01_pib_per_capita.png`, `02_productividad.png`, `03_paro_y_empleo.png`, `04_deuda_publica.png`, `05_saldo_publico.png`, `06_pensiones.png`, `07_salario_real.png`, `08_vivienda.png` y `09_sensibilidad.png`.
+**Qué supone.** Los parámetros DEC proceden de `docs/05-version-maximalista/00-parametros-de-diseno.md`; el resto son supuestos (SUP). E mantiene las reformas de oferta, las políticas activas y las pensiones de B, y añade:
+
+- **Trabajo (2029, sin puertas).** Despido libre, convenio de empresa y salario mínimo congelado restan 0,5 pp de paro estructural (SUP; rango de +0,5 a −1,5, porque la evidencia es mixta), no tocan la PTF y cuestan 0,5 pp de brecha al entrar, además de los 0,3 de B. La rebaja de 5 puntos de cotización (1,75 pp de PIB, DEC) usa el canal de cuña de B (LIT, Bassanini y Duval): −0,9 pp de paro. Una elasticidad de demanda de trabajo de −0,3 con traslado a salarios del 50 % daría −0,5.
+- **Gasto (DEC).** El resto baja 3,0 pp en 2027-2034. La financiación pública de sanidad baja 0,2 pp al año (2029-2038) y la de educación 0,1 (2029-2036); el 95 % pasa a primas, copagos y matrículas.
+- **Pensiones y activos (DEC).** Cuatro puntos de cotización van a cuentas individuales (1,4 pp de ingresos al año desde 2035), sin ahorro de gasto antes de 2040. Las ventas de activos (2,4 pp) bajan deuda.
+- **Empleo público.** De 3.071.725 efectivos (EPSAP, enero de 2026) se traspasan 722.629 de instituciones sanitarias y 707.723 de docencia no universitaria (EPSAP según fuentes secundarias, sin cotejar). No se repone la gestión administrativa: 16 % de la plantilla (SUP, 10-22 %), y un 4 % de jubilaciones anuales (SUP, 3-5,5 %). En A-D la plantilla es constante por convención.
+- **IA.** Sin efecto sobre la PTF agregada.
+
+| Indicador | B 2030 | E 2030 | B 2035 | E 2035 | B 2040 | E 2040 |
+|---|---|---|---|---|---|---|
+| Gasto público total (% PIB) | 45,7 | 45,5 | 43,9 | 41,8 | 44,2 | 41,0 |
+| Sanidad y educación públicas (% PIB) | 11,0 | 10,6 | 11,2 | 9,4 | 11,5 | 8,9 |
+| Pagos privados obligatorios (% PIB) | 0,0 | 0,6 | 0,0 | 2,0 | 0,0 | 2,7 |
+| Gasto público más pagos obligatorios (% PIB) | 45,7 | 46,1 | 43,9 | 43,8 | 44,2 | 43,7 |
+| Efectivos públicos (miles) | 3.072 | 2.421 | 3.072 | 1.464 | 3.072 | 1.366 |
+| Tasa de paro (%) | 10,0 | 10,6 | 7,8 | 8,0 | 7,0 | 6,8 |
+| PIB real per cápita (2025 = 100) | 104,9 | 103,6 | 114,1 | 112,8 | 120,5 | 119,6 |
+| Salario real neto (2025 = 100) | 104,1 | 104,1 | 113,1 | 115,0 | 119,4 | 121,5 |
+| Renta neta tras pagos obligatorios (2025 = 100) | 104,1 | 102,5 | 113,1 | 109,0 | 119,4 | 113,0 |
+| Saldo público (% PIB) | -3,1 | -3,5 | -1,9 | -2,0 | -2,0 | -1,0 |
+| Deuda pública (% PIB) | 96,5 | 97,2 | 89,2 | 89,2 | 83,9 | 80,2 |
+| Saldo de las cuentas individuales (% PIB) | 0,0 | 0,7 | 0,0 | 5,6 | 0,0 | 12,8 |
+
+Paro máximo: E, 10,6 % en 2030; B, 10,3 % en 2026 (dato de partida) y 10,2 % desde 2027.
+
+**Lectura franca.**
+
+1. **El gasto público baja; lo que pagan los hogares por los mismos servicios, casi no.** E queda 3,2 pp por debajo de B en 2040 y 2,7 de ellos (el 84 %) son pagos obligatorios. La suma baja medio punto. El gasto sanitario público acaba en el 5,5 % y no en el 4,6 % del objetivo, porque el envejecimiento sigue sumando 0,065 pp al año.
+2. **La rebaja de cuña no es una ganancia neta.** El salario neto de E supera al de B en 2 puntos; después de primas, copagos y matrículas queda 6 por debajo (113,0 frente a 119,4; de 110 a 116 según cuánto recaiga en los asalariados). Las cuentas individuales no lo compensan: sustituyen derechos del reparto.
+3. **Recortar ingresos empeora el déficit durante siete años.** E renuncia a 3,15 pp de ingresos. Su déficit supera al de B de 2029 a 2035 (3,5 % en 2030) y es menor desde 2036. De los 3,7 puntos de deuda que le saca a B en 2040, 2,4 son ventas de activos. Sin la rebaja de cotizaciones habría superávit (0,7 %) y deuda del 70 %, con un paro del 8,0 %.
+4. **La transición es más dura que la de B y más suave que la de D.** La brecha baja al −2,0 % y pasa ocho años (2029-2036) por debajo del −1 %, umbral de la cláusula cíclica de la regla de gasto, que el modelo no aplica. El PIB perdido suma 14,5 puntos-año frente a 6,4 en B.
+5. **¿Cuándo supera E a B?** En salario neto, desde 2031; en deuda, desde 2035; en saldo, desde 2036; en paro, desde 2037. En PIB per cápita no lo supera antes de 2040 (−0,8 %): la histéresis de un ajuste mayor (2,1 % del potencial frente a 0,9 %) absorbe la ganancia estructural. Tampoco en renta neta tras pagos.
+6. **La plantilla cae un 56 % y cinco de cada seis bajas son un cambio de empleador, que no ahorra gasto.** La no reposición (275.000 efectivos) vale 0,8 pp de PIB en 2040. Lo acumulado hasta 2034 (0,5 pp) es una forma de cumplir el recorte de 3,0 pp, no un ahorro adicional; lo posterior no se cuenta porque no está certificado. Solo es ahorro si la automatización sostiene el servicio.
+
+**Sensibilidad.** E supera a B en PIB per cápita en tres casos: histéresis nula (122,3 frente a 121,7), un punto de PTF atribuible a la reforma laboral (121,0) o ganancias de la IA exclusivas de E (+0,3 pp anuales: 124,5; aplicadas también a B, este llega a 125,4). El efecto laboral adicional mueve el paro de 2040 entre el 5,9 % y el 7,8 %. Con multiplicador e histéresis altos y prima de riesgo no lineal, E acaba peor que B: PIB per cápita de 113,1 frente a 117,7 y deuda del 98 % frente al 91 %. La prima no lineal (opción desactivada por defecto, de forma supuesta) añade sola 4 pb a E y 39 a D; en el caso adverso, 27 a E y 207 a D, por encima del freno de 200 pb.
+
+**Qué no puede decir el modelo sobre E.** No representa la calidad de los servicios traspasados ni la selección de riesgos entre aseguradoras. No hay distribución: el pago obligatorio es una media y el subsidio por renta no está calibrado. No estima la probabilidad de la reforma constitucional, que se supone aprobada. No mide la capacidad real de la IA. Tampoco aplica los frenos automáticos, y en B y D los recortes sanitarios no generan pagos privados, lo que les favorece si el servicio se resiente.
+
+## 10. Archivos
+
+- Series anuales: `resultados/escenario_A.csv` a `escenario_E.csv`; resumen en `resultados/resumen_2030_2035_2040.csv`; sensibilidad en `resultados/sensibilidad.csv`; tablas completas, incluidas las de E, en `resultados/tablas.md`.
+- Gráficos: `resultados/01_pib_per_capita.png`, `02_productividad.png`, `03_paro_y_empleo.png`, `04_deuda_publica.png`, `05_saldo_publico.png`, `06_pensiones.png`, `07_salario_real.png`, `08_vivienda.png`, `09_sensibilidad.png`, `10_gasto_publico_y_pagos.png`, `11_renta_tras_pagos.png` y `12_efectivos_y_cuentas.png`. Los ocho primeros y el 10 y el 11 incluyen E; el 12 compara B y E.
 - Instrucciones de ejecución: `README.md`.

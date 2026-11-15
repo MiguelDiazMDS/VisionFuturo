@@ -12,6 +12,8 @@ Un modelo de escenarios cuantifica el programa hasta 2040. En el escenario centr
 
 **[ESPANA_DINAMICA_2040.md](ESPANA_DINAMICA_2040.md)**: documento integrado, con resumen ejecutivo, diagnóstico, principios, los seis bloques, aritmética fiscal, secuencia 2027-2040, escenario 2040, riesgos y límites.
 
+**[VERSION_MAXIMALISTA.md](VERSION_MAXIMALISTA.md)**: versión maximalista del programa, que convive con la anterior. Aplica sin moderar cinco principios del promotor (trabajo liberalizado, Estado reducido a seguridad y justicia, sanidad y educación con seguro obligatorio y gestión privada, pensiones en cuentas individuales e IA agéntica) y la compara con la versión contrastada usando el mismo modelo.
+
 ## Documentos de detalle
 
 | Documento | Contenido |
@@ -31,6 +33,13 @@ Un modelo de escenarios cuantifica el programa hasta 2040. En el escenario centr
 | [Tablas del modelo](modelo/resultados/tablas.md) | Tablas generadas por el código |
 | [Instrucciones del modelo](modelo/README.md) | Estructura del código y cómo modificarlo |
 | [Revisión liberalizadora e IA agéntica](docs/04-revision/01-revision-liberalizadora-ia.md) | Revisión del proyecto contra cinco principios del promotor: diagnóstico, propuestas por ámbito, versión aspiracional y costes |
+| [Maximalista · Decisiones y parámetros](docs/05-version-maximalista/00-parametros-de-diseno.md) | Decisiones del promotor y fuente única de parámetros |
+| [Maximalista · Trabajo](docs/05-version-maximalista/01-trabajo.md) | Contrato único, extinción libre, negociación colectiva y cotizaciones |
+| [Maximalista · Sanidad y educación](docs/05-version-maximalista/02-sanidad-y-educacion.md) | Seguro obligatorio, cheque educativo, acreditación por resultados |
+| [Maximalista · Pensiones](docs/05-version-maximalista/03-pensiones.md) | Cuentas nocionales e individuales y coste de transición |
+| [Maximalista · Estado núcleo y gasto](docs/05-version-maximalista/04-estado-nucleo-y-gasto.md) | Lista positiva de funciones, función pública residual, regla de gasto |
+| [Maximalista · Estado agéntico](docs/05-version-maximalista/05-estado-agentico.md) | Arquitectura de agentes, oleadas de automatización y evaluación |
+| [Maximalista · Reforma constitucional y secuencia](docs/05-version-maximalista/06-reforma-constitucional-y-secuencia.md) | Artículos, aritmética parlamentaria, tratados y plan de reserva |
 
 ## Estructura del repositorio
 
@@ -42,7 +51,7 @@ Un modelo de escenarios cuantifica el programa hasta 2040. En el escenario centr
 | `docs/02-bloques/` | Seis bloques de propuestas |
 | `docs/03-estrategia/` | Economía política, incentivos y secuencia de implementación |
 | `modelo/` | Modelo cuantitativo de escenarios: código, resultados y gráficos |
-| `web/` | Web interactiva: escenarios, seis bloques y estrategia ([en línea](https://espana-dinamica-2040.vercel.app)) |
+| `web/` | Web interactiva: escenarios, seis bloques, las dos versiones y la estrategia ([en línea](https://espana-dinamica-2040.vercel.app)) |
 
 ## Plan de trabajo
 
@@ -61,7 +70,7 @@ python3 -m pip install numpy pandas matplotlib   # solo si faltan
 python3 modelo/escenarios.py
 ```
 
-Requiere Python 3.9 o posterior. El script es determinista, tarda unos segundos y escribe en `modelo/resultados/` las series anuales de los cuatro escenarios (`escenario_A.csv` a `escenario_D.csv`), el resumen, la sensibilidad, las tablas en Markdown y nueve gráficos. Sin `matplotlib` calcula todo y omite los gráficos. Todos los supuestos están en `modelo/escenarios.py`. `modelo/RESULTADOS.md` está escrito a mano a partir de las tablas, de modo que hay que revisarlo si se cambia un parámetro; lo mismo vale para las cifras del documento integrado.
+Requiere Python 3.9 o posterior. El script es determinista, tarda unos segundos y escribe en `modelo/resultados/` las series anuales de los cinco escenarios (`escenario_A.csv` a `escenario_E.csv`), el resumen, la sensibilidad, las tablas en Markdown y doce gráficos. Sin `matplotlib` calcula todo y omite los gráficos. Todos los supuestos están en `modelo/escenarios.py`. `modelo/RESULTADOS.md` está escrito a mano a partir de las tablas, de modo que hay que revisarlo si se cambia un parámetro; lo mismo vale para las cifras del documento integrado.
 
 ## Nota metodológica
 
@@ -76,6 +85,6 @@ La CI (`.github/workflows/ci.yml`) se ejecuta en cada pull request y en cada pus
 | Comprobación | Qué verifica | En local |
 |---|---|---|
 | Modelo reproducible | Que el modelo se ejecuta y da exactamente los CSV y tablas subidos, y que los datos de la web están sincronizados | `pip install -r modelo/requirements.txt && python3 modelo/escenarios.py && git diff -- modelo/resultados` |
-| Web | Sintaxis de JavaScript y prueba de humo en navegador (escenarios, seis bloques, pestañas, cronología, móvil) | `npm ci && npx playwright install chromium && npm run test:web` |
+| Web | Sintaxis de JavaScript y prueba de humo en navegador (cinco escenarios, seis bloques, comparación de versiones, cronología, móvil) | `npm ci && npx playwright install chromium && npm run test:web` |
 | Enlaces | Que los enlaces relativos de los documentos y las rutas de la web existen | `python3 tests/comprobar_enlaces.py` |
 

@@ -361,6 +361,8 @@ ESCENARIOS["E"].update(
     traslado_hogares=1.0,    # lo retirado pasa a primas, copagos y matrículas (menos eficiencia)
     # Cotización empresarial [DEC §4]: −5 puntos, uno al año en 2030-2034. Sustituye a la
     # rebaja focalizada de B. "Condicionada a ahorro certificado": por defecto se aplica.
+    # Efecto sobre el paro: el mismo canal de cuña que B [LIT]; rango y contraste con una
+    # elasticidad de demanda de trabajo en SENSIBILIDAD_E.
     rebaja_cuña=_serie({}),
     puntos_cotizacion=_serie(_tramo(2030, 2034, 1.0)), aplicar_rebaja_cotizacion=True,
     # Pensiones [DEC §7]: 4 puntos de cotización a cuentas individuales. Las cuentas
@@ -375,7 +377,10 @@ ESCENARIOS["E"].update(
     ia_ptf_anual=0.0, ia_ini=2030,
 )
 
-# Canales que solo usa E. Valor neutro para los escenarios que no los definen.
+# Canales que solo usa E. Valor neutro para los escenarios que no los definen. En A-D la
+# plantilla pública queda constante en el dato de enero de 2026 [SUP]: el modelo no tiene
+# una senda de efectivos para ellos (sus recortes del "resto" no dicen cuánto es plantilla),
+# así que la constante es una convención de comparación, no una proyección.
 DEFECTOS_ESC = dict(
     traslado_hogares=0.0, puntos_cotizacion=_serie({}), aplicar_rebaja_cotizacion=True,
     puntos_capitalizacion=_serie({}), ventas_activos=_serie({}),
@@ -694,7 +699,8 @@ def año_base_fila(P: dict) -> dict:
         salario_bruto_real_indice=100.0, deficit_vivienda_miles=P["deficit_viv_2025"] * 1e3,
         precio_renta_años=P["precio_renta_2025"], saldo_publico_pib=-2.4,
         viviendas_iniciadas_miles=P["iniciadas"][1] * 1e3,
-        gasto_total_pib=45.0, gasto_publico_mas_pagos_pib=45.0, pagos_privados_obligatorios_pib=0.0,
+        gasto_total_pib=45.0, gasto_publico_mas_pagos_pib=45.0,   # ingresos 42,6 + déficit 2,4
+        pagos_privados_obligatorios_pib=0.0,
         renta_neta_tras_pagos_indice=100.0, saldo_cuentas_individuales_pib=0.0,
         efectivos_publicos_miles=P["efectivos_2026"],
     )

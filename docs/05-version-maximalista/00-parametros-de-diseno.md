@@ -59,7 +59,7 @@ Decisión anterior que se mantiene: freno de revalorización de las pensiones po
 |---|---|
 | Modelo | Seguro obligatorio con paquete básico fijado por ley. Aseguradoras y proveedores en competencia, admisión obligatoria, prima comunitaria y compensación de riesgos entre aseguradoras |
 | Financiación pública | Subsidio a la prima decreciente con la renta: íntegro para las rentas bajas y los menores de 18 años. La escala se calibra para cumplir el objetivo de gasto **[SUP: pendiente de microdatos]** |
-| Objetivo de gasto público | Del 6,6 % del PIB a cerca del 4,6 %: −0,2 puntos al año entre 2029 y 2038 **[SUP]** |
+| Retirada de gasto público | 0,2 puntos de PIB al año entre 2029 y 2038, 2,0 en total, frente a la senda sin reforma **[SUP]**. No es un nivel: como el envejecimiento empuja el gasto al alza, en el modelo el gasto público sanitario queda en el 5,5 % del PIB en 2040, frente al 7,3 % de la versión contrastada |
 | Copago | 10 % del coste, con tope anual del 2 % de la renta del hogar; exentas las rentas bajas **[SUP]** |
 | Pagos privados obligatorios | Lo que el Estado deja de financiar pasa a primas y copagos de los hogares, menos la ganancia de eficiencia: central 5 %, rango 0-15 % **[SUP]** |
 | Provisión | Todos los centros públicos pasan a entidades privadas o autónomas entre 2029 y 2033 (un 20 % al año). El personal cambia de empleador |

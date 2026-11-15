@@ -39,6 +39,7 @@ Un modelo de escenarios cuantifica el programa hasta 2040. En el escenario centr
 | `docs/02-bloques/` | Seis bloques de propuestas |
 | `docs/03-estrategia/` | Economía política, incentivos y secuencia de implementación |
 | `modelo/` | Modelo cuantitativo de escenarios: código, resultados y gráficos |
+| `web/` | Web interactiva: escenarios, seis bloques y estrategia ([en línea](https://espana-dinamica-2040.vercel.app)) |
 
 ## Plan de trabajo
 

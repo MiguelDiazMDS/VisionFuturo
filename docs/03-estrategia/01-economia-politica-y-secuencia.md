@@ -43,7 +43,7 @@ El **Senado** (mayoría absoluta del PP desde 2023) puede vetar o retrasar dos m
 | **CCOO y UGT** | Pierden poder en la negociación salarial si se descentraliza. Ganan con políticas activas, formación y mochila con gestión paritaria | Afiliación del 12-13 % (Funcas/OCDE, 2026), pero unos 266.000 delegados que representan a unos 16 millones de asalariados; capacidad de huelga general y de litigio (CEDS, OIT) | Diálogo social con contrapartidas: mochila con fondo paritario, formación, salario mínimo |
 | **CEOE y Cepyme** | Ganan con la simplificación, los umbrales y la unidad de mercado. Pierden con la competencia en sus sectores protegidos y con el coste de la mochila | Medio; veto en el diálogo social | Rebaja de cotizaciones compensatoria; supresión de umbrales |
 | **Funcionarios** (3,07 millones de efectivos, EPSAP enero de 2026) | Los actuales conservan su estatuto. Pierden con la evaluación y la movilidad; ganan con la carrera y la dirección profesional | Medio-alto (sindicatos sectoriales, docentes, sanitarios) | Cláusula de derechos adquiridos (*grandfathering*), sin despidos, estabilización de interinos con concurso |
-| **Pensionistas** (≈9,5-9,6 millones de personas y 10,57 millones de pensiones, octubre de 2026) | Pierden si se desindexa. El programa no toca las pensiones causadas | Muy alto (ver 1.3) | Garantía legal del poder adquisitivo de las pensiones causadas; los cambios solo se aplican a cohortes futuras |
+| **Pensionistas** (≈9,5-9,6 millones de personas y 10,57 millones de pensiones, octubre de 2026) | Pierden las pensiones por encima de 1,5 veces la mínima: freno de revalorización de IPC − 0,5 puntos en 2028-2037, sin recortes nominales. Las mínimas y bajas conservan el IPC | Muy alto (ver 1.3) | Garantía legal del IPC para las pensiones mínimas y bajas, suelo nominal para todas, y destino visible del ahorro (mínimos y pilar complementario) |
 | **Propietarios frente a inquilinos** | Los propietarios (≈75 % de los hogares; no verificado) pierden plusvalía latente con la densificación. Los inquilinos (54,7 % de los menores de 30) ganan | Los propietarios dominan el voto municipal | Densificación con mejora del barrio y plusvalía compartida (subir alturas revaloriza el edificio existente) |
 | **Colegios profesionales, notarios, registradores, farmacias, estibadores, taxis** | Pierden rentas de entrada | Alto en lo técnico y lo mediático; bajo en lo electoral | Derechos adquiridos con calendario, rescate parcial de licencias |
 | **Sectores regulados** (energía, telecomunicaciones, ferrocarril, agua) | Los entrantes ganan, los incumbentes pierden | Captura regulatoria | Reguladores fuertes y estables (condición 6) |
@@ -107,7 +107,7 @@ Las pérdidas del programa son **concentradas, inmediatas y fáciles de atribuir
 | Seguro salarial para desplazados mayores de 50 y complemento salarial tipo EITC para salarios bajos | Perdedores de la reasignación | 0,2-0,3 | Permanente; el seguro salarial, 2029-2036 | — |
 | Fondo de reformas territoriales (vivienda, licencias, unidad de mercado) | CC. AA. y ayuntamientos que cumplan hitos | 0,2-0,3 (3.400-5.100 M€) | 2028-2035 | — |
 | Rescate parcial de licencias y autorizaciones (taxi, farmacias, estiba y otras) | Titulares actuales | Pago único de 0,05-0,1 en total | 2028-2031 | Calendario de apertura gradual de 5 a 10 años |
-| Garantía del poder adquisitivo de las pensiones causadas y refuerzo de los complementos a mínimos ante el ajuste automático | Pensionistas actuales y de renta baja | 0,1-0,2 | Permanente | Pensiones causadas intocables; los cambios solo afectan a cohortes futuras |
+| Garantía del IPC para las pensiones mínimas y bajas y refuerzo de los complementos a mínimos ante el freno y el ajuste automático | Pensionistas de renta baja | 0,1-0,2 | Permanente | Suelo nominal para todas las pensiones causadas; el freno solo afecta a las que superan 1,5 veces la mínima |
 | Aportación pública a la cuenta del pilar complementario para salarios bajos | Trabajadores de renta baja | 0,1-0,15 | Permanente | — |
 | Estabilización de interinos por concurso-oposición y plan de carrera | Empleo público | Coste neutro o bajo | 2027-2031 | Funcionarios actuales conservan el estatuto |
 | **Total** | | **≈1,2-1,9 en el pico (2029-2032)**; ≈0,6-0,9 en régimen permanente | | |
@@ -312,7 +312,7 @@ Los mide trimestralmente una comisión técnica (AIReF, INE y Banco de España).
 
 **Qué no decir**
 - "Despido libre", "desmantelar el Estado", "privatizar la sanidad o el agua": no forman parte del programa (condiciones 4, 7 y 8) y movilizan a todos los perdedores a la vez.
-- "Recortar pensiones": la formulación correcta es "garantizar las pensiones de hoy y hacer sostenibles las de mañana", con la protección de las pensiones causadas por escrito.
+- "Recortar pensiones": la formulación correcta es "proteger las pensiones bajas, pedir un esfuerzo acotado y temporal a las altas y hacer sostenibles las de mañana", con el suelo nominal y la garantía del IPC a las mínimas por escrito. No debe prometerse que las pensiones causadas son intocables, porque el programa les aplica un freno.
 - Plazos de asequibilidad que no se pueden cumplir ("la vivienda bajará en dos años").
 - Descalificar a sindicatos, funcionarios, pensionistas o colectivos profesionales. Se habla de reglas, no de culpables.
 

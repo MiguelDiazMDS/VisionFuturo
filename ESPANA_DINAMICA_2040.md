@@ -38,7 +38,7 @@ Tres convenciones valen para todo el texto. Las cifras proceden de los documento
 
 El central no alcanza el déficit cero, apenas mueve el precio de la vivienda sobre la renta a escala nacional (8,3 años frente a 8,5) y no supera al inercial en renta per cápita hasta 2031.
 
-**Lo que cuesta y a quién.** En 2029-2030 el paro es 0,2-0,3 puntos más alto que sin reformas. Las compensaciones cuestan entre 1,2 y 1,9 puntos de PIB en el pico (2029-2032). Pierden las cohortes de 1960-1975 (pensión inicial un 3-10 % menor y hasta año y medio más de trabajo), los pensionistas con pensiones altas si se activa el freno, las profesiones con reserva de actividad, los titulares de licencias, las empresas de alta rotación, los beneficiarios de subvenciones y beneficios fiscales suprimidos y los propietarios de suelo.
+**Lo que cuesta y a quién.** En 2029-2030 el paro es 0,2-0,3 puntos más alto que sin reformas. Las compensaciones cuestan entre 1,2 y 1,9 puntos de PIB en el pico (2029-2032). Pierden las cohortes de 1960-1975 (pensión inicial un 3-10 % menor y hasta año y medio más de trabajo), los pensionistas con pensiones por encima de 1,5 veces la mínima (freno de revalorización de IPC − 0,5 puntos en 2028-2037, sin recortes nominales), las profesiones con reserva de actividad, los titulares de licencias, las empresas de alta rotación, los beneficiarios de subvenciones y beneficios fiscales suprimidos y los propietarios de suelo.
 
 **Tres desviaciones respecto del marco de partida**
 
@@ -352,7 +352,7 @@ Detalle: [bloque 5](docs/02-bloques/05-pensiones-y-demografia.md).
 |---|---|---|---|
 | Edad legal ligada a dos tercios de la ganancia de esperanza de vida, con aviso de diez años | LGSS; Pacto de Toledo | Ahorro de 0,2-0,3 en 2036 (no verificado) | Dinamarca, Países Bajos, Portugal, Finlandia (no verificado) |
 | Cómputo de toda la carrera, descartando los cuatro peores años | LGSS | Ahorro de 0,1-0,2 en 2036 (no verificado) | Sistemas nocionales |
-| Ajuste automático: factor de esperanza de vida en las nuevas altas y freno suave (IPC menos hasta 0,5 puntos) solo para pensiones por encima de 1,5 veces la mínima, simétrico | LGSS | Ahorro de 0,3-0,6 en 2036 (no verificado) | Freno sueco, corregido para evitar su brusquedad |
+| Ajuste automático: factor de esperanza de vida en las nuevas altas y freno de revalorización para las pensiones, incluidas las causadas, por encima de 1,5 veces la mínima: IPC − 0,5 puntos en 2028-2037 y después automático y simétrico, con suelo nominal | LGSS | Ahorro de 0,3-0,6 en 2036 (no verificado) | Freno sueco, corregido para evitar su brusquedad |
 | Cuentas nocionales para los nacidos desde 1985 | Ley estatal con acuerdo amplio | Casi nulo antes de 2045 | Suecia, Italia, Letonia, Polonia |
 | Pilar complementario con inscripción automática: del 1 % + 1 % en 2028 al 3 % + 3 % en 2034; fondo público por defecto con comisión ≤0,3 % | Ley 12/2022; IRPF | Coste de 0,05-0,15 | Reino Unido: del 55 % al 88-90 % de participación |
 | Plaza garantizada de 0 a 3 años, permiso parental retribuido y crédito fiscal por hijo | LOE; ET; IRPF | Coste de 0,3-0,5 | Bauernschuster et al. (2016); Lalive y Zweimüller (2009) |
@@ -370,11 +370,11 @@ Las cuentas nocionales mantienen el reparto (las cotizaciones de hoy pagan las p
 | 2.º orden | Más empleo de madres con hijos pequeños | Edad efectiva +1-1,5 años | Tasa de sustitución pública del 65-75 % más 5-12 % complementaria |
 | 3.er orden | Conflicto político sobre edad y ajuste | Credibilidad fiscal, de magnitud pequeña | Equidad entre generaciones si hay pacto |
 
-**Beneficiados, perjudicados y compensación.** No pierden los 5-6 millones de pensionistas con pensiones de hasta 1,5 veces la mínima (no verificado). Los 4-5 millones restantes pierden solo si se activa el freno: hasta un 0,5 % real al año y un 2-5 % en una década en el peor caso. Las cohortes de 1960-1975 trabajan entre medio año y año y medio más y parten de una pensión un 3-10 % menor. Se compensa con el aviso de diez años, la protección de las carreras largas, la jubilación activa y el pilar complementario.
+**Beneficiados, perjudicados y compensación.** No pierden los 5-6 millones de pensionistas con pensiones de hasta 1,5 veces la mínima (no verificado). Los 4-5 millones restantes pierden un 0,5 % real al año entre 2028 y 2037, en torno a un 5 % acumulado, sin recortes nominales. Las cohortes de 1960-1975 trabajan entre medio año y año y medio más y parten de una pensión un 3-10 % menor. Se compensa con el aviso de diez años, la protección de las carreras largas, la jubilación activa y el pilar complementario.
 
 **Riesgos y mitigación.** Para evitar una reversión como la de 2013-2021, sin acuerdo del Pacto de Toledo con al menos 210 escaños no se legisla y solo se despliega el pilar complementario. Las pensiones causadas no bajan en términos nominales y hay dictamen previo de constitucionalidad. No hay doble pago, porque el reparto no se sustituye.
 
-**Advertencia de coherencia.** El modelo da menos gasto que la meta de bloque (13,2 % frente a 13,6-14,6 %) por dos razones: su denominador crece más por las reformas, y aplica el freno de revalorización de forma incondicional entre 2028 y 2037, mientras que el bloque lo condiciona y excluye las pensiones bajas. Desde 2038, agotadas las medidas, el gasto vuelve a subir: la reforma compra tiempo, no cierra el problema.
+**Advertencia de coherencia.** El modelo da menos gasto que la meta de bloque (13,2 % frente a 13,6-14,6 %) por dos razones: su denominador crece más por las reformas, y el rango del bloque se calculó cuando el freno era solo condicional. Con el freno aplicado en 2028-2037, que es la decisión adoptada y lo que simula el modelo, la meta del bloque se desplaza hacia su extremo inferior. Desde 2038, agotadas las medidas, el gasto vuelve a subir: la reforma compra tiempo, no cierra el problema.
 
 ### 3.6 Función pública y gasto
 
@@ -476,7 +476,7 @@ La estrategia cifra por separado las compensaciones a los perdedores:
 | Seguro salarial y complemento salarial | 0,2-0,3 | Permanente; el seguro, 2029-2036 |
 | Fondo de reformas territoriales | 0,2-0,3 | 2028-2035 |
 | Rescate parcial de licencias | 0,05-0,1 (pago único) | 2028-2031 |
-| Garantía de pensiones causadas y complementos a mínimos | 0,1-0,2 | Permanente |
+| Garantía del IPC a pensiones mínimas y bajas y complementos a mínimos | 0,1-0,2 | Permanente |
 | Aportación pública al pilar complementario | 0,1-0,15 | Permanente |
 | **Total** | **≈1,2-1,9 en el pico (2029-2032); ≈0,6-0,9 permanente** | |
 
@@ -516,7 +516,7 @@ Detalle: [economía política y secuencia](docs/03-estrategia/01-economia-politi
 Las pérdidas del programa son concentradas, inmediatas y fáciles de atribuir; los beneficios son dispersos y diferidos. Los mayores de 65 años son el 28,3 % del censo y entre el 31 % y el 33 % de los votos emitidos (estimación de la estrategia), los propietarios dominan el voto municipal y las comunidades autónomas aplican en torno al 70 % del programa. El paquete de incentivos responde con cinco familias de incentivos:
 
 - **Institucionales.** Regla de gasto con rango orgánico, AIReF con previsiones vinculantes y presidencia elegida por tres quintos, caducidad normativa y evaluación ex post a los tres y seis años.
-- **Compensatorios.** Los del §4.3, siempre temporales o acotados, y cláusulas de derechos adquiridos para contratos, funcionarios y pensiones causadas.
+- **Compensatorios.** Los del §4.3, siempre temporales o acotados, y cláusulas de derechos adquiridos para contratos y funcionarios, y suelo nominal con IPC garantizado a las pensiones bajas.
 - **Electorales.** Dividendos visibles pronto: declaración responsable en el mes 3, deflactación parcial en los meses 4-6, primeras rebajas de precios en servicios liberalizados entre los meses 9 y 12 y licencias en menos de cuatro meses en los municipios adheridos entre los meses 12 y 18. La vivienda nueva de obra completa no llega antes del mes 30-36, y así debe decirse.
 - **Territoriales.** Fondo de reformas con pago por hitos verificados, transferencia municipal por vivienda terminada, comparación pública anual y adhesión voluntaria: quien no se adhiere no cobra.
 - **Patrimoniales.** La mochila y el pilar complementario convierten derechos en saldos individuales que millones de titulares defenderán.
@@ -685,7 +685,7 @@ Existe una vía intermedia: el mismo ajuste de D repartido en ocho años deja la
 |---|---|---|---|
 | Déficit de vivienda | 0-300.000 | 480.000 | El bloque supone 220.000-270.000 terminaciones anuales en 2029-2036; el modelo llega a 186.000 en 2035 y 206.000 en 2040 |
 | Precio/renta | 6,5-7,5 | 8,3 | El modelo parte de 8,5 en 2026 (el dato del Banco de España es 7,98 al cierre de 2025) y su elasticidad es nacional |
-| Pensiones/PIB | 13,6-14,6 % | 13,2 % | Mayor denominador y freno de revalorización incondicional en el modelo |
+| Pensiones/PIB | 13,6-14,6 % | 13,2 % | Mayor denominador en el modelo; el rango del bloque se calculó con el freno solo condicional |
 | Saldo público | estructural 0/−1 | −2,0 | El modelo no alcanza la meta; en 2030 da −3,1 frente a −1,5/−2,2 |
 | Paro en 2030 | 8,5-9,5 % | 10,0 % | Curva en J; la meta de 2040 (6-7,5 %) sí coincide |
 | Cuña fiscal | 37-39 % (bloque 2); 37,5-39,5 % (bloque 4) | 40,5 % | Las metas suponen rebajas sin financiación identificada |
@@ -708,7 +708,7 @@ Existe una vía intermedia: el mismo ajuste de D repartido en ocho años deja la
 11. **Diferencias menores.** Transferencia por vivienda terminada de 4.000-6.000 € (bloque 1) o de 3.000-6.000 € (estrategia); rampas y subida a 10 M€ (bloque 3) o "supresión o elevación" de umbrales (estrategia); "contrato único o mochila" en la estrategia, cuando el bloque 2 no propone contrato único.
 12. **Costes fuera del cuadro fiscal.** Entre 0,8 y 1,5 puntos de PIB de los bloques 1 a 3 no figuran en el cuadro del bloque 6 (§4.3).
 
-Hay además una contradicción de fondo sin resolver. La estrategia promete que las pensiones causadas son "intocables" y que los cambios solo afectan a cohortes futuras. El bloque 5 aplica el freno de revalorización a las pensiones ya causadas por encima de 1,5 veces la mínima, y el modelo cuenta con ese ahorro. Las dos cosas no pueden comunicarse a la vez; hay que elegir.
+**Contradicción resuelta (decisión del promotor, noviembre de 2026).** La estrategia prometía que las pensiones causadas eran "intocables", mientras el bloque 5 y el modelo contaban con un freno sobre ellas. Se adopta el freno: entre 2028 y 2037, las pensiones por encima de 1,5 veces la mínima, incluidas las ya causadas, se revalorizan con el IPC menos 0,5 puntos, nunca con recorte nominal; las mínimas y las no contributivas siguen el IPC; desde 2038 el freno pasa a ser automático y simétrico. La estrategia y el bloque 5 se han alineado con esta decisión, que coincide con lo que ya simulaba el modelo, así que sus cifras no cambian. La decisión se aparta en parte de la condición 11 del análisis crítico (respeto de las pensiones causadas), que se mantiene solo en su versión nominal. Su riesgo principal es jurídico y político: el art. 50 CE exige pensiones "periódicamente actualizadas", y los mayores de 65 son en torno a un tercio de los votos emitidos. Conviene un dictamen previo de constitucionalidad.
 
 ---
 
@@ -759,7 +759,7 @@ Detalle: [crítica y riesgos](docs/01-investigacion/03-critica-y-riesgos.md) y [
 ### 8.3 Agenda de trabajo siguiente
 
 1. **Cerrar la aritmética.** Un único cuadro de fuentes y usos, año a año, que incluya todos los costes de los seis bloques y las compensaciones, y volver a ejecutar el modelo con ese calendario exacto.
-2. **Resolver la contradicción sobre pensiones causadas** (§6.5) y simular el freno condicionado.
+2. **Simular la variante del freno solo condicional** (activado por la proyección de la AIReF) como alternativa de menor coste político, y encargar el dictamen constitucional del freno sobre pensiones causadas (§6.5).
 3. **Auditoría jurídica por medida:** rango normativo, competencia, derecho europeo y tratados.
 4. **Análisis de incidencia** por decila, cohorte y provincia de las medidas mayores.
 5. **Verificar en fuente primaria** las cifras del §8.2, empezando por las fiscales.

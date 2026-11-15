@@ -1,5 +1,7 @@
 # España Dinámica 2040
 
+Web: [espana-dinamica-2040.vercel.app](https://espana-dinamica-2040.vercel.app) · X: [@libemister](https://x.com/libemister)
+
 Proyecto de investigación y diseño estratégico sobre cómo un programa coherente de consolidación fiscal, competencia, reforma laboral, reforma de la función pública y oferta de vivienda podría abordar seis problemas estructurales de España: vivienda, salarios reales, productividad, poder adquisitivo, pensiones y demografía.
 
 El proyecto parte de un marco liberalizador (reducción del Estado, desregulación y dinamismo privado) y lo somete a contraste con un diagnóstico cuantificado, la evidencia internacional y una crítica adversarial. El resultado conserva el propósito del marco (más competencia, menos barreras, más oferta de vivienda, reglas fiscales, fin de la dualidad laboral y mérito en lo público) y lo modera en tres puntos: sustituye el despido libre por la eliminación de la brecha entre contratos, el déficit cero por un ancla estructural gradual, y el traspaso de sectores al privado por la competencia regulada sobre redes públicas.

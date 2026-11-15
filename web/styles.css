@@ -294,6 +294,7 @@ a:hover { text-decoration-thickness: 2px; }
 
 .pie { max-width: var(--ancho); margin: 0 auto; padding: 32px var(--margen) 56px; border-top: 2px solid var(--tinta); font-size: 0.85rem; color: var(--lapiz); }
 .pie p { max-width: 80ch; margin: 0; }
+.pie .redes { margin-top: 12px; font-family: var(--display); font-weight: 600; color: var(--tinta); }
 
 /* Adaptación */
 @media (max-width: 960px) {

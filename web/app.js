@@ -537,6 +537,7 @@
     X.condiciones.forEach(function (c) { cond.appendChild(el("li", { text: c })); });
     document.getElementById("enlace-parametros").href = REPO + X.docParametros;
     document.getElementById("enlace-revision").href = REPO + X.docRevision;
+    document.getElementById("enlace-secuencia").href = REPO + X.docSecuencia;
 
     // Comparación numérica: solo si el modelo ya incluye el escenario maximalista.
     if (!M.E || !window.FRENTE) return;

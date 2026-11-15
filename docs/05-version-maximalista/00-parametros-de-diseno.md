@@ -28,11 +28,11 @@ Decisión anterior que se mantiene: freno de revalorización de las pensiones po
 | Año | Hito |
 |---|---|
 | 2027 | Leyes que no necesitan reforma constitucional: regla de gasto real cero, lista positiva de funciones, declaración responsable universal, convenio de empresa prevalente, reposición cero en gestión administrativa, primera oleada agéntica, inicio de ventas del sector público comercial. Se registra la iniciativa de reforma constitucional |
-| 2028 | Aprobación de la reforma constitucional por el art. 167 (tres quintos de ambas cámaras, 210 diputados) y referéndum si lo pide una décima parte de una cámara **[SUP: el modelo supone que se aprueba]** |
+| 2028 | Denuncia del art. 24 de la Carta Social Europea revisada, con efecto el 1 de julio de 2028 y preaviso de seis meses **[SUP: consecuencia de la decisión 3, pendiente de confirmar]**. Aprobación de la reforma constitucional por el art. 167 (tres quintos de ambas cámaras, 210 diputados) y referéndum si lo pide una décima parte de una cámara **[SUP: el modelo supone que se aprueba]** |
 | 2029 | Entran en vigor el contrato único de extinción libre, el estatuto funcionarial limitado al núcleo, el aseguramiento sanitario obligatorio, el cheque educativo y las cuentas individuales de pensión |
 | 2029-2033 | Traspaso de hospitales, centros de salud y centros educativos públicos a entidades privadas o autónomas |
 | 2030-2034 | Rebaja de cotizaciones empresariales, un punto al año |
-| 2035-2036 | Ventana de denuncia del Convenio 158 de la OIT (no verificado): se suprime la causa formal del despido |
+| 2035-2037 | Ventana de denuncia del Convenio 158 de la OIT, del 23 de noviembre de 2035 al 23 de noviembre de 2036. La denuncia surte efecto un año después de registrarse (cláusula tipo, no verificada en el texto literal), así que la causa formal del despido se suprime en 2036-2037 |
 
 **Artículos a reformar:** 35 (despido), 41 (régimen público de Seguridad Social), 43 (protección de la salud) y 103.3 (estatuto de los funcionarios). Todos van por el art. 167. No se toca el art. 27 (educación), que exigiría el procedimiento agravado del art. 168 y que ya admite la financiación pública de centros privados.
 
@@ -81,9 +81,9 @@ Decisión anterior que se mantiene: freno de revalorización de las pensiones po
 | Parámetro | Valor |
 |---|---|
 | Cuentas nocionales | Para todos los menores de 50 años desde 2029 |
-| Capitalización | 4 puntos de cotización se desvían a cuentas individuales: un punto en 2029, 2031, 2033 y 2035. Con el 3 % + 3 % del pilar complementario, la cuenta recibe el 10 % del salario |
+| Capitalización | 4 puntos de cotización se desvían a cuentas individuales: un punto en 2029, 2031, 2033 y 2035. Con el 3 % + 3 % del pilar complementario, la cuenta recibe hasta el 10 % del salario; el 3 % + 3 % sigue siendo de inscripción automática con salida voluntaria |
 | Coste de transición | 0,3-0,4 puntos de PIB de ingresos por punto desviado (central 0,35): 1,4 puntos al año a régimen, durante décadas |
-| Garantía pública | Solo la pensión mínima |
+| Garantía pública | Solo la pensión mínima. La pensión nocional se paga según lo cotizado, sin tasa de sustitución garantizada |
 | Se mantienen | Edad ligada a la esperanza de vida, cómputo de toda la carrera y freno de revalorización |
 
 ## 8. Estado, función pública y gasto
@@ -115,7 +115,11 @@ Decisión anterior que se mantiene: freno de revalorización de las pensiones po
 
 ## 10. Lo que este diseño no resuelve
 
-- **La mayoría de tres quintos.** Ninguna combinación de partidos afines la alcanza según los sondeos que recoge la estrategia (192-207 escaños frente a 210). Sin ella caen el despido libre, las cuentas individuales y el estatuto limitado al núcleo.
-- **El Convenio 158 de la OIT.** Un tratado ratificado prevalece sobre la ley aunque cambie la Constitución. Hasta su denuncia hace falta una causa, aunque sea formal.
+- **La mayoría de tres quintos.** A 15 de noviembre de 2026 las elecciones generales del día 29 no se han celebrado. Ningún sondeo publicado da 210 escaños al bloque afín: van de 188 a 208 (detalle y fuentes en el [documento 06](06-reforma-constitucional-y-secuencia.md)). Sin esa mayoría caen el despido libre, las cuentas individuales y el estatuto limitado al núcleo; el mismo documento describe el plan de reserva.
+- **El referéndum.** Si una décima parte de una cámara lo pide, la reforma se vota en referéndum. Este diseño no prevé qué ocurre si se pierde.
+- **Los tratados.** Un tratado ratificado prevalece sobre la ley aunque cambie la Constitución. La ventana de denuncia del Convenio 158 de la OIT que estaba abierta se cierra el 23 de noviembre de 2026; la siguiente se abre en 2035. Hasta entonces hace falta una causa, aunque sea formal.
+- **El art. 50 de la Constitución.** No está entre los artículos a reformar, así que el riesgo jurídico del freno de revalorización sobre las pensiones causadas sigue donde estaba.
+- **La financiación.** El desvío a cuentas individuales y la rebaja de cotizaciones restan 3,15 puntos de PIB de ingresos en 2035 (1,4 + 1,75). Las ventas de activos van a deuda, no a cubrir ese hueco.
 - **La calibración del subsidio sanitario.** Sin microdatos de renta y gasto sanitario por edad, el objetivo de gasto es una cifra de política, no un resultado.
+- **El plan de reserva no está modelizado.** El escenario E supone que la reforma constitucional se aprueba.
 - **La evidencia.** El diagnóstico, la evidencia internacional y la crítica del proyecto siguen diciendo lo que decían.

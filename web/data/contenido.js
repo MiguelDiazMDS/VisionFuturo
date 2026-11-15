@@ -322,43 +322,43 @@ window.MAXIMALISTA = {
       nombre: "Trabajo",
       contrastada: "Mochila del 1,5 % manteniendo la causa del despido y el control judicial. Suelo sectorial y salario mínimo al 55-60 % del mediano.",
       maximalista: "Contrato único con extinción libre, preaviso de un mes e indemnización cero. Mochila del 1,53 %. Convenio de empresa por encima del sectorial. Cinco puntos menos de cotización empresarial.",
-      doc: "docs/05-version-maximalista/00-parametros-de-diseno.md"
+      doc: "docs/05-version-maximalista/01-trabajo.md"
     },
     {
       nombre: "Sanidad",
       contrastada: "Financiación pública íntegra. Elección de proveedor sin copagos ni selección.",
       maximalista: "Seguro obligatorio con copago del 10 % y tope anual. Subsidio público a la prima solo según renta. Todos los centros pasan a gestión privada en competencia entre 2029 y 2033.",
-      doc: "docs/05-version-maximalista/00-parametros-de-diseno.md"
+      doc: "docs/05-version-maximalista/02-sanidad-y-educacion.md"
     },
     {
       nombre: "Educación",
       contrastada: "Financiación pública íntegra. Autonomía de centros y evaluación externa.",
       maximalista: "Cheque íntegro de 3 a 16 años y parcial después; préstamos ligados a la renta en la universidad. Centros acreditados por resultados, con libertad de formato.",
-      doc: "docs/05-version-maximalista/00-parametros-de-diseno.md"
+      doc: "docs/05-version-maximalista/02-sanidad-y-educacion.md"
     },
     {
       nombre: "Pensiones",
       contrastada: "Reparto con cuentas nocionales para los nacidos desde 1985 y un pilar complementario del 3 % + 3 %.",
       maximalista: "Cuentas nocionales para los menores de 50 años. Cuatro puntos de cotización pasan a cuentas individuales: el 10 % del salario en total. El Estado garantiza solo la pensión mínima.",
-      doc: "docs/05-version-maximalista/00-parametros-de-diseno.md"
+      doc: "docs/05-version-maximalista/03-pensiones.md"
     },
     {
       nombre: "Estado y función pública",
       contrastada: "Eficiencia y reglas, no tamaño. Contrato laboral solo para el nuevo ingreso sin funciones de autoridad.",
       maximalista: "El Estado produce solo seguridad, justicia y las funciones de autoridad que las sostienen. Estatuto funcionarial para ese núcleo. Reposición cero en gestión administrativa.",
-      doc: "docs/05-version-maximalista/00-parametros-de-diseno.md"
+      doc: "docs/05-version-maximalista/04-estado-nucleo-y-gasto.md"
     },
     {
       nombre: "Gasto",
       contrastada: "Ancla de saldo estructural, con una reserva de ingresos si el ajuste no llega.",
       maximalista: "Gasto primario sin crecimiento real hasta un objetivo legal. Venta de todo el sector público comercial. Subvenciones a empresas: cero por defecto.",
-      doc: "docs/05-version-maximalista/00-parametros-de-diseno.md"
+      doc: "docs/05-version-maximalista/04-estado-nucleo-y-gasto.md"
     },
     {
       nombre: "IA agéntica",
       contrastada: "Una mención a la tramitación automatizada de prestaciones regladas.",
       maximalista: "El Estado conserva datos, reglas y evaluación, y compra la ejecución a agentes de proveedores en competencia. Lo favorable se resuelve solo; lo desfavorable admite revisión humana.",
-      doc: "docs/05-version-maximalista/00-parametros-de-diseno.md"
+      doc: "docs/05-version-maximalista/05-estado-agentico.md"
     }
   ],
   capas: [
@@ -368,11 +368,12 @@ window.MAXIMALISTA = {
     ["Evaluación", "Tasa de error medida frente al proceso humano, auditoría por muestreo y recurso", "Autoridad independiente"]
   ],
   condiciones: [
-    "Reformar los artículos 35, 41, 43 y 103.3 de la Constitución, con tres quintos de ambas cámaras. Los sondeos que recoge el proyecto no dan esa mayoría a ningún bloque.",
+    "Reformar los artículos 35, 41, 43 y 103.3 de la Constitución, con tres quintos de ambas cámaras: 210 diputados. Los sondeos previos a las elecciones del 29 de noviembre dan al bloque afín entre 188 y 208.",
     "Lo que el Estado deja de financiar en sanidad y educación lo pagan los hogares en primas, copagos y matrículas.",
     "Pasar a cuentas individuales cuesta 1,4 puntos de PIB al año durante décadas, porque las pensiones actuales hay que seguir pagándolas.",
-    "El despido necesita una causa formal hasta que pueda denunciarse el Convenio 158 de la OIT, previsiblemente en 2035 (dato sin verificar)."
+    "El despido necesita una causa formal hasta que pueda denunciarse el Convenio 158 de la OIT. La próxima ventana se abre en noviembre de 2035."
   ],
   docParametros: "docs/05-version-maximalista/00-parametros-de-diseno.md",
+  docSecuencia: "docs/05-version-maximalista/06-reforma-constitucional-y-secuencia.md",
   docRevision: "docs/04-revision/01-revision-liberalizadora-ia.md"
 };

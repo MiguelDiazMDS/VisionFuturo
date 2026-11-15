@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>España Dinámica 2040</title>
+  <meta name="description" content="Seis bloques de reformas y una estrategia de implementación para España hasta 2040, con los resultados del modelo de escenarios.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23EDEFE8'/%3E%3Cpath d='M4 22 C10 26 14 24 17 18 S24 6 28 5' fill='none' stroke='%2317324A' stroke-width='3'/%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+
+  <header class="cabecera">
+    <a class="marca" href="#inicio">España Dinámica 2040</a>
+    <nav aria-label="Secciones">
+      <a href="#escenarios">Escenarios</a>
+      <a href="#bloques">Los seis bloques</a>
+      <a href="#estrategia">Estrategia</a>
+      <a href="#abierto">Lo que falta</a>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <section class="portada" id="inicio" aria-labelledby="titular">
+      <div class="portada-texto">
+        <h1 id="titular">Reformar cuesta antes de rendir.</h1>
+        <p class="entradilla">Un programa para España hasta 2040: más vivienda donde hay empleo, menos barreras para crecer, reglas fiscales que se cumplan y pensiones sostenibles. Con sus costes a la vista.</p>
+        <p class="nota-portada" id="nota-cruce"></p>
+      </div>
+
+      <figure class="explorador" id="escenarios" aria-labelledby="titulo-grafico">
+        <div class="explorador-controles">
+          <label class="selector-indicador">
+            <span class="visually-hidden">Indicador</span>
+            <select id="indicador"></select>
+          </label>
+          <div class="escenarios" role="radiogroup" aria-label="Escenario destacado" id="escenarios-botones"></div>
+        </div>
+        <figcaption id="titulo-grafico" class="titulo-grafico"></figcaption>
+        <div class="grafico" id="grafico" role="img"></div>
+        <p class="explica-escenario" id="explica-escenario" aria-live="polite"></p>
+        <dl class="tira-2040" id="tira-2040"></dl>
+      </figure>
+    </section>
+
+    <section class="bloques" id="bloques" aria-labelledby="titulo-bloques">
+      <div class="seccion-cabeza">
+        <h2 id="titulo-bloques">Los seis bloques</h2>
+        <p>Cada bloque ataca un problema, pero ninguno funciona solo. Las flechas muestran qué bloque facilita el resultado de otro: la vivienda asequible, por ejemplo, adelanta la emancipación, que es condición para la natalidad. Elige un bloque para ver sus medidas, efectos y costes.</p>
+      </div>
+
+      <div class="plano">
+        <ul class="leyenda" id="leyenda" role="tablist" aria-label="Bloques de la propuesta"></ul>
+        <div class="mapa" id="mapa" aria-hidden="true">
+          <svg class="mapa-trazos" id="mapa-trazos" viewBox="0 0 800 420"></svg>
+        </div>
+      </div>
+
+      <article class="ficha" id="ficha" role="tabpanel" aria-live="polite"></article>
+    </section>
+
+    <section class="estrategia" id="estrategia" aria-labelledby="titulo-estrategia">
+      <div class="seccion-cabeza">
+        <h2 id="titulo-estrategia">Estrategia de implementación</h2>
+        <p>Cinco fases entre 2027 y 2040. Ninguna reforma de coste concentrado avanza si no se cumple antes su condición, y nunca hay más de tres o cuatro en marcha a la vez.</p>
+      </div>
+
+      <div class="cronologia" id="cronologia"></div>
+      <div class="detalle-cronologia" id="detalle-cronologia" aria-live="polite"></div>
+
+      <h3 class="subtitulo">Calendario por medida</h3>
+      <div class="gantt-envoltorio">
+        <table class="gantt" id="gantt"></table>
+      </div>
+      <p class="leyenda-gantt"><span class="celda c2"></span> aprobación o despliegue principal <span class="celda c1"></span> despliegue <span class="celda cr"></span> régimen estable</p>
+
+      <div class="dos-columnas">
+        <div>
+          <h3 class="subtitulo">Por qué lo aceptarían</h3>
+          <dl class="incentivos" id="incentivos"></dl>
+        </div>
+        <div>
+          <h3 class="subtitulo">Cuándo parar</h3>
+          <p class="aclaracion">Una comisión técnica (AIReF, INE y Banco de España) mide estos umbrales cada trimestre. Si se cruza uno, el Gobierno corrige en 60 días o pausa la medida.</p>
+          <table class="fracaso" id="fracaso"></table>
+        </div>
+      </div>
+
+      <h3 class="subtitulo">Qué sobrevive según la política</h3>
+      <div class="trayectorias" id="trayectorias"></div>
+      <p class="aclaracion">Probabilidades cualitativas. La recomendación es diseñar para la mayoría estrecha, ofrecer pactos desde el primer día y aplazar lo que no resista una alternancia.</p>
+    </section>
+
+    <section class="abierto" id="abierto" aria-labelledby="titulo-abierto">
+      <div class="seccion-cabeza">
+        <h2 id="titulo-abierto">Lo que el proyecto aún no resuelve</h2>
+        <p>Un programa que solo enseña sus aciertos no merece confianza. Esto queda pendiente.</p>
+      </div>
+      <ul class="pendientes" id="pendientes"></ul>
+      <p class="enlaces-doc">Documento completo: <a id="enlace-documento" href="#">España Dinámica 2040</a>. Modelo y datos: <a id="enlace-modelo" href="#">carpeta del modelo</a>.</p>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Las cifras proceden del modelo de escenarios del proyecto y de los documentos de detalle. Son escenarios condicionados a supuestos explícitos, no previsiones. Noviembre de 2026.</p>
+  </footer>
+
+  <script src="data/modelo.js"></script>
+  <script src="data/contenido.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -49,6 +49,7 @@
   var estado = { esc: "B", ind: "pib", dibujado: false };
 
   var M = window.MODELO;
+  if (M.E) ESCENARIOS.push({ id: "E", nombre: "Maximalista", color: "var(--maximalista)", hex: "#A55B12", trazo: "", explica: window.EXPLICA_E || "La versión maximalista del programa." });
   var anios = M.A.anios;
 
   // Primer año en que el central supera al inercial y ya no vuelve a quedar por debajo.
@@ -508,6 +509,50 @@
     });
     t.appendChild(cuerpo);
     t.appendChild(el("tfoot", null, [el("tr", null, [el("th", { scope: "row", text: "Elecciones" })].concat(E.elecciones.map(function (e) { return el("td", { text: e }); })))]));
+  })();
+
+  /* ---------- Dos versiones ---------- */
+  (function () {
+    var X = window.MAXIMALISTA;
+    var t = document.getElementById("comparativa");
+    t.appendChild(el("caption", { class: "visually-hidden", text: "Versión contrastada frente a versión maximalista, por ámbito" }));
+    t.appendChild(el("thead", null, [el("tr", null, [
+      el("th", { scope: "col", text: "Ámbito" }), el("th", { scope: "col", text: "Versión contrastada" }), el("th", { scope: "col", text: "Versión maximalista" })
+    ])]));
+    var cuerpo = el("tbody");
+    X.ambitos.forEach(function (a) {
+      cuerpo.appendChild(el("tr", null, [
+        el("th", { scope: "row" }, [document.createTextNode(a.nombre), el("a", { href: REPO + a.doc, text: "Leer el documento" })]),
+        el("td", { "data-etiqueta": "Versión contrastada", text: a.contrastada }),
+        el("td", { class: "max", "data-etiqueta": "Versión maximalista", text: a.maximalista })
+      ]));
+    });
+    t.appendChild(cuerpo);
+
+    var capas = document.getElementById("capas");
+    X.capas.forEach(function (c) {
+      capas.appendChild(el("li", { class: c[2] === "Estado" ? "" : "privada" }, [el("strong", { text: c[0] }), el("span", { text: c[1] }), el("em", { text: "La opera: " + c[2] })]));
+    });
+    var cond = document.getElementById("condiciones");
+    X.condiciones.forEach(function (c) { cond.appendChild(el("li", { text: c })); });
+    document.getElementById("enlace-parametros").href = REPO + X.docParametros;
+    document.getElementById("enlace-revision").href = REPO + X.docRevision;
+
+    // Comparación numérica: solo si el modelo ya incluye el escenario maximalista.
+    if (!M.E || !window.FRENTE) return;
+    var ft = document.getElementById("frente-tabla");
+    ft.appendChild(el("thead", null, [el("tr", null, [
+      el("th", { scope: "col", text: "En 2040" }), el("th", { scope: "col", text: "Central" }), el("th", { scope: "col", text: "Maximalista" }), el("th", { scope: "col", text: "Lectura" })
+    ])]));
+    var fb = el("tbody");
+    window.FRENTE.forEach(function (f) {
+      fb.appendChild(el("tr", null, [
+        el("th", { scope: "row", text: f.nombre }),
+        el("td", { text: f.central }), el("td", { class: "max", text: f.maximalista }), el("td", { class: "nota", text: f.lectura })
+      ]));
+    });
+    ft.appendChild(fb);
+    document.getElementById("frente").hidden = false;
   })();
 
   /* ---------- Incentivos, fracaso, trayectorias, pendientes ---------- */

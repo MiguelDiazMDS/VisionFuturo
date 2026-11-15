@@ -10,6 +10,12 @@ modelo de equilibrio general: es una contabilidad encadenada con cinco módulos
 la vista. Sirve para comprobar la coherencia aritmética de un programa de
 reformas y para ver qué supuestos mueven los resultados; no predice.
 
+Cinco escenarios: A (inercial), B (central), C (efectos bajos), D (choque) y
+E (versión maximalista). E añade canales que en A-D valen cero por defecto
+(pagos privados obligatorios, cuentas individuales, ventas de activos, empleo
+público, IA y prima de riesgo no lineal), de modo que las columnas de A-D
+anteriores a E no cambian.
+
 Convenciones
 ------------
 * Año base: 2025 (último año "estructural" completo; 2026 está contaminado por
@@ -23,7 +29,11 @@ Convenciones
               fuente antes de publicarla.
     [SUP]     supuesto del proyecto (sin fuente directa, o interpolación propia).
     [CAL]     calibrado para reproducir un dato de partida.
-    [NV]      el dato de origen figura como "(no verificado)" en el diagnóstico.
+    [NV]      el dato de origen figura como "(no verificado)" en el diagnóstico,
+              o procede de una fuente secundaria que no se pudo cotejar.
+    [DEC]     decisión del promotor o parámetro fijado en
+              docs/05-version-maximalista/00-parametros-de-diseno.md (fuente
+              única del escenario E; se cita el apartado).
 
 Uso:  python3 modelo/escenarios.py
 Salidas en modelo/resultados/ (CSV, PNG y tablas en Markdown).
@@ -156,6 +166,58 @@ P0 = dict(
     # ---- Convergencia (indicativo) --------------------------------------
     pib_pc_ue_2025=92.0,     # UE27 = 100 en PPA [DIAG 2]
     crec_pc_ue=1.2,          # % anual del PIB per cápita de la UE [SUP]
+    # ---- Empleo público (variable nueva; solo el escenario E la mueve) ----
+    efectivos_2026=3071.725,  # miles de efectivos, EPSAP enero de 2026 [DIAG §7.2]
+    efectivos_sanidad=722.629,  # miles, instituciones sanitarias, EPSAP enero de 2026 [NV]:
+                             # cifra tomada de fuentes secundarias que resumen la EPSAP
+                             # (no se pudo abrir el PDF oficial). Sin universidades.
+    efectivos_docencia=707.723,  # miles, docencia no universitaria, ídem [NV]
+    frac_gestion_admin=0.16,  # [SUP] parte de la plantilla en gestión administrativa (≈490.000).
+                             # La EPSAP no publica esa categoría. Orden de magnitud: total menos
+                             # sanidad, docencia, fuerzas de seguridad (161.349), fuerzas armadas
+                             # (123.504), justicia y universidades deja ≈1,1 M en ministerios,
+                             # consejerías y entidades locales [NV], de los que se supone que algo
+                             # menos de la mitad tramita expedientes. Rango 0,10-0,22.
+    tasa_jubilacion_gestion=4.0,  # % anual de la plantilla inicial de gestión que se jubila [SUP].
+                             # Ancla: el estudio de envejecimiento de Función Pública (2025) da un
+                             # 49,5 % de la plantilla de la AGE jubilada en diez años (≈5 % al año)
+                             # [LIT, visto solo en prensa]; CC. AA. y entidades locales, sin dato,
+                             # se suponen algo más jóvenes. Rango 3,0-5,5.
+    coste_por_100mil_efectivos=0.30,  # pp de PIB por cada 100.000 efectivos [NV]: orden de magnitud
+                             # de la revisión (04-revision §A8) con una masa salarial pública del
+                             # 11 % del PIB. Solo se usa para una partida informativa.
+    dividendo_tras_recorte=0.0,  # 0 = el ahorro de la no reposición posterior a 2034 NO se suma al
+                             # recorte (caso central: no está certificado); 1 = se suma [SUP]
+    # ---- Sanidad y educación: traslado a los hogares (escenario E) --------
+    eficiencia_privada=0.05,  # ganancia de eficiencia sobre lo que el Estado deja de financiar
+                             # [DEC §5, marcado SUP en el archivo]; rango 0-0,15
+    frac_pagos_sobre_salarios=0.75,  # [SUP] parte de las primas, copagos y matrículas que pagan los
+                             # hogares de asalariados; el resto, pensionistas y otras rentas.
+                             # 0,47 = reparto proporcional a toda la renta; 1 = todo sobre salarios.
+    # ---- Cotizaciones, cuentas individuales y activos (escenario E) -------
+    coste_por_punto_cotizacion=0.35,  # pp de PIB de ingresos por punto de cotización
+                             # [DEC §4 y §7]; rango 0,30-0,40
+    rentab_real_cuentas=2.0,  # % anual real, neta de comisiones, de las cuentas individuales [SUP];
+                             # rango 0-4. Sin retiradas antes de 2040 (los menores de 50 años en
+                             # 2029 no se jubilan hasta después).
+    renta_activos_vendidos=3.0,  # % anual de lo vendido que el Estado deja de ingresar (dividendos)
+                             # [SUP]: una venta a precio justo no mejora el patrimonio neto; se
+                             # supone un rendimiento perdido parecido al tipo de la deuda amortizada.
+    # ---- Prima de riesgo no lineal (opción DESACTIVADA por defecto) [SUP] --
+    # prima extra (pp) = prima_no_lineal × deuda(t−1)/100 ×
+    #     [ prima_coef_deficit × max(0, déficit(t−1) − prima_umbral_deficit)²
+    #     + prima_coef_brecha  × max(0, −brecha(t) − prima_umbral_brecha)² ],  con tope prima_tope.
+    # Se suma al tipo de las nuevas emisiones y, con un año de retraso, enfría la demanda.
+    # La forma (convexa en el déficit y en la profundidad de la recesión, proporcional a la
+    # deuda) sigue la idea de De Grauwe y Ji (2013) y del "canal del riesgo soberano" de
+    # Corsetti et al. (2013) [LIT, de memoria]; los coeficientes son supuestos ilustrativos,
+    # no estimaciones: con deuda del 100 %, un déficit del 5 % añade 40 pb y una brecha del
+    # −3,5 %, otros 40 pb.
+    prima_no_lineal=0.0,     # 0 = desactivada (no altera A-D); 1 = activada
+    prima_coef_deficit=0.10, prima_umbral_deficit=3.0,
+    prima_coef_brecha=0.10, prima_umbral_brecha=1.5,
+    prima_tope=5.0,          # pp
+    prima_efecto_demanda=0.3,  # pp de brecha al año siguiente por cada 100 pb de prima extra [SUP]
 )
 
 # ---------------------------------------------------------------------------
@@ -191,6 +253,25 @@ REFORMAS_CENTRAL = [
     dict(nombre="laboral_dualidad", inicio=2029, mitad=5, ptf=0.75, paro=-1.5, coste_cp=0.3),
 ]
 PARO_POR_PP_CUÑA_PIB = -0.5   # pp de paro estructural por pp de PIB de rebaja de cuña (con 2 años de retraso)
+
+# Reforma laboral maximalista (escenario E): lo que AÑADE a "laboral_dualidad" el
+# contrato único de extinción libre, el convenio de empresa prevalente y el salario
+# mínimo congelado [DEC §4]. La rebaja de cotizaciones va aparte, por el canal de la cuña.
+#  * Paro estructural: central −0,5 pp, modesto a propósito [SUP]. La evidencia del
+#    proyecto es mixta (02-evidencia §8; 03-crítica §2.1-2.2): Bassanini y Duval no
+#    hallan un efecto robusto de la protección del empleo sobre el paro agregado; la
+#    OCDE (Employment Outlook 2018) asocia la negociación descentralizada sin coordinación
+#    con resultados de empleo no mejores que la coordinada; y el salario mínimo actúa de
+#    contrapeso al poder de mercado del empleador. Rango +0,5 a −1,5 pp: incluye el cero
+#    y un efecto adverso.
+#  * PTF: 0 en el caso central (efecto del despido libre "disputado", 03-crítica §2.2);
+#    rango −0,5 % a +1,0 % [SUP].
+#  * Coste a corto plazo: +0,5 pp de brecha el año de entrada (y la mitad el siguiente),
+#    que se suman a los 0,3 de la reforma de B y se amplifican con holgura [SUP]. [LIT]
+#    FMI WEO abril 2016 (cap. 3) y Duval y Furceri (2018): abaratar el despido con
+#    holgura destruye empleo antes de crearlo. Que solo se aplique a los contratos
+#    nuevos lo limita. Rango 0,2-1,0.
+REFORMA_LABORAL_MAX = dict(nombre="laboral_maximalista", inicio=2029, mitad=5, ptf=0.0, paro=-0.5, coste_cp=0.5)
 
 
 def _serie(valores: dict) -> dict:
@@ -260,8 +341,51 @@ ESCENARIOS["D"].update(
     pens_brecha_index=_serie({**_tramo(2027, 2030, 1.00), **_tramo(2031, 2037, 0.25)}),
 )
 
-COLORES = {"A": "#52514e", "B": "#2a78d6", "C": "#1baf7a", "D": "#eb6834"}
-ESTILOS = {"A": (0, (4, 2)), "B": "solid", "C": "solid", "D": "solid"}
+# (E) Maximalista [DEC]: parámetros de docs/05-version-maximalista/00-parametros-de-diseno.md.
+# Las mismas reformas de oferta que B (y las mismas políticas activas y medidas de
+# pensiones), más la reforma laboral maximalista en 2029, sin puertas. Supone que la
+# reforma constitucional se aprueba en 2028 [SUP del archivo, §3].
+ESCENARIOS["E"] = copy.deepcopy(ESCENARIOS["B"])
+ESCENARIOS["E"].update(
+    nombre="E · Maximalista",
+    reformas=[dict(r) for r in REFORMAS_CENTRAL] + [dict(REFORMA_LABORAL_MAX)],
+    # Gasto [DEC §8]: −3,0 pp del "resto" en 2027-2034. Las compensaciones de B no son una
+    # partida propia del modelo (van dentro del "resto"), así que su supresión forma parte
+    # de esos 3,0 pp. Las políticas activas (+0,6 pp) se mantienen como en B, pagadas por
+    # resultado [SUP]: quitarlas exigiría quitar también su efecto sobre el paro.
+    recorte_resto=_serie(_tramo(2027, 2034, 3.0 / 8)),
+    # Sanidad y educación [DEC §5-6]: retirada de financiación pública de 0,2 pp al año en
+    # 2029-2038 y de 0,1 pp al año en 2029-2036. Sustituye al recorte sanitario de B.
+    recorte_sanidad=_serie(_tramo(2029, 2038, 0.20)),
+    recorte_educacion=_serie(_tramo(2029, 2036, 0.10)),
+    traslado_hogares=1.0,    # lo retirado pasa a primas, copagos y matrículas (menos eficiencia)
+    # Cotización empresarial [DEC §4]: −5 puntos, uno al año en 2030-2034. Sustituye a la
+    # rebaja focalizada de B. "Condicionada a ahorro certificado": por defecto se aplica.
+    rebaja_cuña=_serie({}),
+    puntos_cotizacion=_serie(_tramo(2030, 2034, 1.0)), aplicar_rebaja_cotizacion=True,
+    # Pensiones [DEC §7]: 4 puntos de cotización a cuentas individuales. Las cuentas
+    # nocionales de los menores de 50 años no ahorran gasto antes de 2040: efecto cero.
+    puntos_capitalizacion=_serie({2029: 1.0, 2031: 1.0, 2033: 1.0, 2035: 1.0}),
+    # Ventas de activos [DEC §8]: 0,3 pp de PIB al año en 2028-2035; bajan deuda, no déficit.
+    ventas_activos=_serie(_tramo(2028, 2035, 0.30)),
+    # Empleo público [DEC §5, §6 y §8]: reposición cero en gestión desde 2027 y traspaso del
+    # personal sanitario y docente a entidades privadas o autónomas, un 20 % al año en 2029-2033.
+    reposicion_cero_ini=2027, traspaso=_serie(_tramo(2029, 2033, 0.20)),
+    # IA [DEC §9]: efecto sobre la PTF agregada = 0 en el caso central (pp al año desde ia_ini).
+    ia_ptf_anual=0.0, ia_ini=2030,
+)
+
+# Canales que solo usa E. Valor neutro para los escenarios que no los definen.
+DEFECTOS_ESC = dict(
+    traslado_hogares=0.0, puntos_cotizacion=_serie({}), aplicar_rebaja_cotizacion=True,
+    puntos_capitalizacion=_serie({}), ventas_activos=_serie({}),
+    reposicion_cero_ini=None, traspaso=_serie({}), ia_ptf_anual=0.0, ia_ini=2030,
+)
+
+# E: magenta oscuro, validado frente a los otros tres tonos (separación con visión normal
+# y con daltonismo) con el validador de paleta del proyecto.
+COLORES = {"A": "#52514e", "B": "#2a78d6", "C": "#1baf7a", "D": "#eb6834", "E": "#a02c9c"}
+ESTILOS = {"A": (0, (4, 2)), "B": "solid", "C": "solid", "D": "solid", "E": "solid"}
 
 
 # ---------------------------------------------------------------------------
@@ -309,6 +433,7 @@ def demografia(P: dict) -> pd.DataFrame:
 # 4. SIMULACIÓN
 # ---------------------------------------------------------------------------
 def simular(esc: dict, P: dict) -> pd.DataFrame:
+    esc = {**DEFECTOS_ESC, **esc}
     dem = demografia(P)
     a_ = P["alfa"]
 
@@ -330,7 +455,12 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
         rec_resto=0.0, rec_san=0.0, rec_edu=0.0, activas=0.0, ajuste_cuña=[],
         deficit_viv=P["deficit_viv_2025"], parque=P["parque_2025"],
         ini_1=P["iniciadas"][1], ini_2=P["iniciadas"][0], tension0=None, salto=1.0,
+        # canales del escenario E (cero en los demás)
+        pagos=0.0, desvio=0.0, cuentas=0.0, ventas_acum=0.0, no_repuestos=0.0, traspasados=0.0,
+        saldo=P["ingresos_2025"] - 45.0, prima_extra=0.0,
     )
+    gestion0 = P["frac_gestion_admin"] * P["efectivos_2026"]       # miles de efectivos
+    fin_recorte = max([x for x in AÑOS if esc["recorte_resto"][x]], default=AÑO_FIN)
     filas = []
 
     for a in AÑOS:
@@ -340,9 +470,11 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
         # ============ (1) OFERTA: PIB potencial ============
         # Efectos de las reformas con su perfil de entrada
         ptf_ref = sum(r["ptf"] * perfil(a, r["inicio"], r["mitad"]) for r in esc["reformas"]) * esc["escala_ptf"]
+        # IA: deriva de la PTF agregada, cero salvo en la sensibilidad [SUP]
+        ptf_ref += esc["ia_ptf_anual"] * max(0, a - esc["ia_ini"] + 1)
         du_ref = sum(r["paro"] * perfil(a, r["inicio"], r["mitad"]) for r in esc["reformas"])
         cuña_hace2 = est["ajuste_cuña"][-2] if len(est["ajuste_cuña"]) >= 2 else 0.0
-        du_ref = (du_ref + PARO_POR_PP_CUÑA_PIB * cuña_hace2) * esc["escala_empleo"]
+        du_ref = (du_ref + P.get("paro_por_pp_cuña", PARO_POR_PP_CUÑA_PIB) * cuña_hace2) * esc["escala_empleo"]
         fase_edad = min(1.0, max(0.0, (a - esc["pens_edad_ini"] + 1) / esc["pens_edad_años"]))
         # El efecto de la edad sobre la actividad es más mecánico: se rebaja menos en C
         esc_edad = 0.5 + 0.5 * min(1.0, esc["escala_empleo"]) if esc["pens_edad"] else 0.0
@@ -389,23 +521,55 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
         ahorro_pens = (n_sr * pm_sr - n * pm) / 1e3 / pib_pot * 100  # pp del PIB potencial
         est.update(n=n, pm=pm, n_sr=n_sr, pm_sr=pm_sr)
 
-        # ============ (3) DEMANDA: multiplicador, brecha e histéresis ============
-        est["rec_resto"] += esc["recorte_resto"][a]
+        # ============ (3) EMPLEO PÚBLICO (solo se mueve en E) ============
+        # Dos reducciones distintas de la plantilla:
+        #  * no reposición en gestión administrativa: las jubilaciones no se cubren. Ahorra
+        #    gasto, pero solo si la automatización sostiene el servicio (el modelo no lo comprueba);
+        #  * traspaso del personal sanitario y docente: cambia de empleador. NO ahorra gasto.
+        no_rep_previo = est["no_repuestos"]
+        if esc["reposicion_cero_ini"] is not None and a >= esc["reposicion_cero_ini"]:
+            est["no_repuestos"] = min(gestion0, est["no_repuestos"] + P["tasa_jubilacion_gestion"] / 100 * gestion0)
+        est["traspasados"] += esc["traspaso"][a] * (P["efectivos_sanidad"] + P["efectivos_docencia"])
+        efectivos = P["efectivos_2026"] - est["no_repuestos"] - est["traspasados"]
+        # Partida informativa: el ahorro de la no reposición es una de las formas de cumplir
+        # el recorte del "resto", no un ahorro adicional. No entra en las cuentas, salvo la
+        # parte posterior al último año de recorte si dividendo_tras_recorte = 1 (sensibilidad).
+        ahorro_no_rep = est["no_repuestos"] / 100 * P["coste_por_100mil_efectivos"]
+        dividendo = (P["dividendo_tras_recorte"] * (est["no_repuestos"] - no_rep_previo) / 100
+                     * P["coste_por_100mil_efectivos"]) if a > fin_recorte else 0.0
+        recorte_resto = esc["recorte_resto"][a] + dividendo
+
+        # ============ (4) DEMANDA: multiplicador, brecha e histéresis ============
+        # Cotización empresarial (E): puntos × coste por punto; se suma a la rebaja de cuña
+        rebaja_cuña = esc["rebaja_cuña"][a] + (P["coste_por_punto_cotizacion"] * esc["puntos_cotizacion"][a]
+                                               if esc["aplicar_rebaja_cotizacion"] else 0.0)
+        # Sanidad y educación (E): lo que el Estado deja de financiar lo pagan los hogares en
+        # primas, copagos y matrículas, menos la ganancia de eficiencia
+        pagos_nuevos = ((esc["recorte_sanidad"][a] + esc["recorte_educacion"][a]) * esc["traslado_hogares"]
+                        * (1 - P["eficiencia_privada"]))
+        est["pagos"] += pagos_nuevos
+        est["rec_resto"] += recorte_resto
         est["rec_san"] += esc["recorte_sanidad"][a]
         est["rec_edu"] += esc["recorte_educacion"][a]
         est["activas"] += esc["gasto_activas"][a]
-        est["cuña_acum"] += esc["rebaja_cuña"][a]
+        est["cuña_acum"] += rebaja_cuña
         est["ajuste_cuña"].append(est["cuña_acum"])
         holgura = min(1.0, max(0.0, -est["brecha"] / 2.0))          # 0 con brecha cerrada, 1 con ≤ −2 %
         amp = 1 + P["amplificacion_holgura"] * holgura
-        impulso = (esc["recorte_resto"][a] + esc["recorte_sanidad"][a] + esc["recorte_educacion"][a]
+        # La parte del recorte sanitario y educativo que los hogares reponen con pagos
+        # obligatorios no reduce el gasto total en esos servicios: actúa como una subida de
+        # impuestos (peso_impuestos) y no como un recorte de gasto (peso 1) [SUP]. El desvío de
+        # cotizaciones a cuentas individuales no da impulso: es ahorro forzoso, no renta disponible.
+        impulso = (recorte_resto + esc["recorte_sanidad"][a] + esc["recorte_educacion"][a]
                    - esc["gasto_activas"][a]
                    + P["peso_transferencias"] * (ahorro_pens - est["ahorro_pens"])
-                   - P["peso_impuestos"] * esc["rebaja_cuña"][a])
+                   - P["peso_impuestos"] * rebaja_cuña
+                   - (1 - P["peso_impuestos"]) * pagos_nuevos)
         coste_ref = sum(r["coste_cp"] * (1.0 if a == r["inicio"] else 0.5 if a == r["inicio"] + 1 else 0.0)
                         for r in esc["reformas"])
         brecha = (P["persistencia_brecha"] * est["brecha"]
-                  - P["multiplicador"] * amp * impulso - amp * coste_ref)
+                  - P["multiplicador"] * amp * impulso - amp * coste_ref
+                  - P["prima_efecto_demanda"] * est["prima_extra"])
         est["ahorro_pens"] = ahorro_pens
         cicatriz_previa = est["cicatriz"]
         est["cicatriz"] += P["histeresis"] * max(0.0, -brecha)
@@ -416,9 +580,16 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
         empleo = d["pet"] * part / 100 * (1 - u / 100)
         crec = (pib / est["pib"] - 1) * 100
 
-        # ============ (4) FISCAL (% del PIB efectivo) ============
+        # ============ (5) FISCAL (% del PIB efectivo) ============
         rel = pib_pot / pib      # el gasto se fija sobre el potencial: estabilizadores automáticos
-        ingresos = P["ingresos_2025"] + P["deriva_ingresos"] * t - est["cuña_acum"]
+        defl = P["deflactor"].get(a, P["deflactor_lp"])
+        nominal = (1 + crec / 100) * (1 + defl / 100)
+        # E: cotizaciones desviadas a cuentas individuales (ingreso que se pierde sin que baje
+        # el gasto en pensiones antes de 2040) y renta de los activos ya vendidos
+        est["desvio"] += P["coste_por_punto_cotizacion"] * esc["puntos_capitalizacion"][a]
+        est["ventas_acum"] /= nominal
+        ingresos = (P["ingresos_2025"] + P["deriva_ingresos"] * t - est["cuña_acum"]
+                    - est["desvio"] - P["renta_activos_vendidos"] / 100 * est["ventas_acum"])
         g_pens = gasto_pens / pib * 100
         g_san = (P["sanidad_2025"] + P["deriva_sanidad"] * t - est["rec_san"]) * rel
         g_edu = (P["educacion_2025"] - est["rec_edu"]) * rel
@@ -427,16 +598,23 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
                     - est["rec_resto"] + est["activas"]) * rel
                    + P["prest_desempleo"] * (u - u0))
         primario = ingresos - g_pens - g_san - g_edu - g_resto
-        defl = P["deflactor"].get(a, P["deflactor_lp"])
-        nominal = (1 + crec / 100) * (1 + defl / 100)
-        tipo_marg = P["tipo_nuevo"] + P["prima_por_deuda"] * (est["deuda"] - 100)
+        # Prima de riesgo no lineal (opción; 0 por defecto). Véase P0.
+        prima_extra = min(P["prima_tope"], P["prima_no_lineal"] * est["deuda"] / 100 * (
+            P["prima_coef_deficit"] * max(0.0, -est["saldo"] - P["prima_umbral_deficit"]) ** 2
+            + P["prima_coef_brecha"] * max(0.0, -brecha - P["prima_umbral_brecha"]) ** 2))
+        tipo_marg = P["tipo_nuevo"] + P["prima_por_deuda"] * (est["deuda"] - 100) + prima_extra
         tipo = est["tipo"] + (tipo_marg - est["tipo"]) / P["vida_media_deuda"]
         intereses = tipo / 100 * est["deuda"] / nominal
         saldo = primario - intereses
-        deuda = est["deuda"] / nominal - saldo
-        est.update(deuda=deuda, tipo=tipo, pib=pib)
+        # Las ventas de activos amortizan deuda sin pasar por el saldo
+        deuda = est["deuda"] / nominal - saldo - esc["ventas_activos"][a]
+        est["ventas_acum"] += esc["ventas_activos"][a]
+        # Cuentas individuales: saldo en % del PIB, capitalizado a la rentabilidad real
+        est["cuentas"] = (est["cuentas"] * (1 + P["rentab_real_cuentas"] / 100) / (1 + crec / 100)
+                          + est["desvio"])
+        est.update(deuda=deuda, tipo=tipo, pib=pib, saldo=saldo, prima_extra=prima_extra)
 
-        # ============ (5) SALARIOS ============
+        # ============ (6) SALARIOS ============
         cuña = P["cuña_2025"] + (P["deriva_ingresos"] * t - est["cuña_acum"]) / P["base_laboral"]
         # Participación salarial: constante salvo en la sensibilidad (crítica del monopsonio).
         # Ronda el 50 % del PIB, así que −1,5 pp equivalen a ≈−3 % del salario; el cambio
@@ -446,9 +624,14 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
         part_sal = 1 + P["delta_part_salarial"] / 100 / 0.5 * fase_lab
         coste_lab = (pib / empleo) / y_por_ocupado0 * part_sal      # índice 2025 = 1
         neto = coste_lab * (1 - cuña / 100) / (1 - P["cuña_2025"] / 100)
+        # Renta salarial neta tras pagos obligatorios: los pagos que recaen en hogares de
+        # asalariados se expresan en puntos del coste laboral, igual que la cuña. El desvío a
+        # cuentas individuales no se resta (sigue siendo cotización) ni se suma (no es líquido).
+        pagos_sal = est["pagos"] * P["frac_pagos_sobre_salarios"] / P["base_laboral"]
+        neto_tras_pagos = coste_lab * (1 - (cuña + pagos_sal) / 100) / (1 - P["cuña_2025"] / 100)
         est["w_reg"] += (coste_lab - est["w_reg"]) / P["años_base_reguladora"]
 
-        # ============ (6) VIVIENDA ============
+        # ============ (7) VIVIENDA ============
         ini_base = lineal(a, 2025, P["iniciadas"][1], 2028, P["iniciadas_base_lp"])
         iniciadas = ((ini_base + esc["viv_extra"] * perfil(a, esc["viv_ini"], esc["viv_mitad"]))
                      * (1 + P["elast_viv_ciclo"] * min(0.0, brecha) / 100))
@@ -488,6 +671,15 @@ def simular(esc: dict, P: dict) -> pd.DataFrame:
             viviendas_terminadas_miles=terminadas * 1e3, deficit_vivienda_miles=est["deficit_viv"] * 1e3,
             precio_renta_años=precio_renta,
             precio_real_vivienda_indice=precio_renta / P["precio_renta_2025"] * pib_pc / pib_pc0 * 100,
+            # ---- columnas añadidas con el escenario E (siempre al final) ----
+            pagos_privados_obligatorios_pib=est["pagos"] * rel,
+            gasto_publico_mas_pagos_pib=g_pens + g_san + g_edu + g_resto + intereses + est["pagos"] * rel,
+            renta_neta_tras_pagos_indice=neto_tras_pagos * 100,
+            cotizaciones_desviadas_pib=est["desvio"], saldo_cuentas_individuales_pib=est["cuentas"],
+            ventas_activos_pib=esc["ventas_activos"][a],
+            efectivos_publicos_miles=efectivos, efectivos_traspasados_miles=est["traspasados"],
+            efectivos_no_repuestos_miles=est["no_repuestos"], ahorro_no_reposicion_pib=ahorro_no_rep,
+            prima_riesgo_extra_pp=prima_extra,
         ))
     return pd.DataFrame(filas).set_index("año")
 
@@ -502,6 +694,9 @@ def año_base_fila(P: dict) -> dict:
         salario_bruto_real_indice=100.0, deficit_vivienda_miles=P["deficit_viv_2025"] * 1e3,
         precio_renta_años=P["precio_renta_2025"], saldo_publico_pib=-2.4,
         viviendas_iniciadas_miles=P["iniciadas"][1] * 1e3,
+        gasto_total_pib=45.0, gasto_publico_mas_pagos_pib=45.0, pagos_privados_obligatorios_pib=0.0,
+        renta_neta_tras_pagos_indice=100.0, saldo_cuentas_individuales_pib=0.0,
+        efectivos_publicos_miles=P["efectivos_2026"],
     )
 
 

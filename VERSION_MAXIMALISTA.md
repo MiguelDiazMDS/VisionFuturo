@@ -79,7 +79,7 @@ El diseño funciona también si la tecnología avanza despacio: los agentes se q
 ## 5. Lo que exige
 
 - **Tres quintos de ambas cámaras.** Son 210 diputados. A 15 de noviembre de 2026 las elecciones del día 29 no se han celebrado, y los sondeos dan al bloque afín entre 188 y 208 escaños. El [documento de reforma constitucional](docs/05-version-maximalista/06-reforma-constitucional-y-secuencia.md) describe un plan de reserva por ley ordinaria, que no está modelizado.
-- **Tratados.** El despido necesita una causa formal hasta que surta efecto la denuncia del Convenio 158 de la OIT, cuya próxima ventana se abre en noviembre de 2035. El art. 24 de la Carta Social Europea puede denunciarse con efecto en julio de 2028.
+- **Tratados.** El despido necesita una causa formal hasta que surta efecto la denuncia del Convenio 158 de la OIT, cuya próxima ventana se abre en noviembre de 2035. El art. 24 de la Carta Social Europea se denuncia con efecto el 1 de julio de 2028; la notificación tiene que hacerse antes del 1 de enero de 2028.
 - **Financiación de la transición.** El paso a cuentas individuales cuesta 1,4 puntos de PIB al año durante décadas.
 - **Aceptación social del traslado de costes.** Unos 2,7 puntos de PIB pasan del presupuesto público al de los hogares.
 

@@ -13,6 +13,8 @@ Marcas: **[DEC]** decisión del promotor; **[SUP]** supuesto del proyecto, a cal
 3. **Despido [DEC]:** por reforma constitucional.
 4. **Entregable [DEC]:** versión maximalista junto a la contrastada, con escenario propio en el modelo.
 
+5. **Carta Social Europea [DEC, 17 de noviembre de 2026]:** se denuncia su art. 24 (protección frente al despido) con efecto el 1 de julio de 2028.
+
 Decisión anterior que se mantiene: freno de revalorización de las pensiones por encima de 1,5 veces la mínima (IPC − 0,5 puntos en 2028-2037).
 
 ## 2. Principios
@@ -28,7 +30,7 @@ Decisión anterior que se mantiene: freno de revalorización de las pensiones po
 | Año | Hito |
 |---|---|
 | 2027 | Leyes que no necesitan reforma constitucional: regla de gasto real cero, lista positiva de funciones, declaración responsable universal, convenio de empresa prevalente, reposición cero en gestión administrativa, primera oleada agéntica, inicio de ventas del sector público comercial. Se registra la iniciativa de reforma constitucional |
-| 2028 | Denuncia del art. 24 de la Carta Social Europea revisada, con efecto el 1 de julio de 2028 y preaviso de seis meses **[SUP: consecuencia de la decisión 3, pendiente de confirmar]**. Aprobación de la reforma constitucional por el art. 167 (tres quintos de ambas cámaras, 210 diputados) y referéndum si lo pide una décima parte de una cámara **[SUP: el modelo supone que se aprueba]** |
+| 2028 | Denuncia del art. 24 de la Carta Social Europea revisada, notificada antes del 1 de enero de 2028 (seis meses de preaviso) y con efecto el 1 de julio de 2028 **[DEC]**. Aprobación de la reforma constitucional por el art. 167 (tres quintos de ambas cámaras, 210 diputados) y referéndum si lo pide una décima parte de una cámara **[SUP: el modelo supone que se aprueba]** |
 | 2029 | Entran en vigor el contrato único de extinción libre, el estatuto funcionarial limitado al núcleo, el aseguramiento sanitario obligatorio, el cheque educativo y las cuentas individuales de pensión |
 | 2029-2033 | Traspaso de hospitales, centros de salud y centros educativos públicos a entidades privadas o autónomas |
 | 2030-2034 | Rebaja de cotizaciones empresariales, un punto al año |

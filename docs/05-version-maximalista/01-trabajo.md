@@ -159,7 +159,7 @@ La prestación se publica como especificación ejecutable con casos de prueba (n
 ## 8. Qué queda sin resolver
 
 - **La mayoría de tres quintos.** Sin ella queda solo la causa formal por ley ordinaria, con alto riesgo de inconstitucionalidad.
-- **La Carta Social Europea.** El archivo de parámetros solo prevé denunciar el Convenio 158; con el art. 24 de la Carta vigente, suprimir la causa deja un conflicto internacional abierto.
+- **La Carta Social Europea.** El promotor ha decidido denunciar su art. 24 con efecto el 1 de julio de 2028 ([parámetros](00-parametros-de-diseno.md)). Queda abierto el coste reputacional de ser el primer Estado de la UE en denunciar esa protección (no verificado que no haya precedentes) y el control que pueda ejercer el Comité Europeo de Derechos Sociales sobre el resto de la Carta.
 - **La fecha efectiva de la supresión de la causa**, que depende del plazo de efecto de la denuncia (no verificado).
 - **La rebaja de cotizaciones condicionada.** Si la AIReF no certifica el ahorro, no hay rebaja; el calendario la da por hecha.
 - **El efecto del SMI provincial congelado** sobre empleo y pobreza laboral, no estimado.

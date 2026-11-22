@@ -88,3 +88,7 @@ La CI (`.github/workflows/ci.yml`) se ejecuta en cada pull request y en cada pus
 | Web | Sintaxis de JavaScript y prueba de humo en navegador (cinco escenarios, seis bloques, comparación de versiones, cronología, móvil) | `npm ci && npx playwright install chromium && npm run test:web` |
 | Enlaces | Que los enlaces relativos de los documentos y las rutas de la web existen | `python3 tests/comprobar_enlaces.py` |
 
+
+## Licencia
+
+Código y documentación bajo [licencia MIT](LICENSE): se pueden usar, copiar, modificar y redistribuir citando la autoría y sin garantía.

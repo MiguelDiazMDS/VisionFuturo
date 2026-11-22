@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var REPO = "https://github.com/MiguelDiazMDS/VisionFuturo/blob/ccr-8aa345ba-4zoprp/";
+  var REPO = "https://github.com/MiguelDiazMDS/VisionFuturo/blob/main/";
   var SVGNS = "http://www.w3.org/2000/svg";
   var reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

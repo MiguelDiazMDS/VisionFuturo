@@ -24,6 +24,8 @@ python3 -m http.server -d web 8000 # vista local en http://localhost:8000
 
 Proyecto de Vercel con **Root Directory** `web` y sin comando de compilación (Framework Preset: Other). No necesita variables de entorno.
 
+La rama de producción es `main`: cada push a `main` publica la web en https://espana-dinamica-2040.vercel.app. Los pushes a otras ramas generan despliegues de vista previa.
+
 ## Convenciones visuales
 
 - Cada bloque tiene un color de calificación urbanística, usado solo en marcas.

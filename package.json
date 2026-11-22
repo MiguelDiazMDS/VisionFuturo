@@ -1,0 +1,13 @@
+{
+  "name": "vision-futuro",
+  "private": true,
+  "license": "MIT",
+  "description": "Herramientas de comprobación del proyecto España Dinámica 2040",
+  "type": "module",
+  "scripts": {
+    "test:web": "node tests/web-humo.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

@@ -1,0 +1,5 @@
+# Versiones con las que se generaron los resultados de modelo/resultados.
+# La CI las usa para comprobar que el modelo es reproducible.
+numpy==2.5.3
+pandas==3.0.5
+matplotlib==3.11.2

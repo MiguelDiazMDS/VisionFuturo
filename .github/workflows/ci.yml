@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  modelo:
+    name: Modelo reproducible
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: modelo/requirements.txt
+      - run: pip install -r modelo/requirements.txt
+      - name: Ejecutar el modelo
+        run: python modelo/escenarios.py
+      - name: Los resultados coinciden con los subidos
+        # Los PNG se excluyen: sus bytes cambian con la versión de las fuentes del sistema.
+        run: |
+          if ! git diff --exit-code --stat -- modelo/resultados ':(exclude)*.png'; then
+            echo "::error::Los resultados del modelo no coinciden con los del repositorio. Ejecuta python3 modelo/escenarios.py y sube los cambios."
+            exit 1
+          fi
+      - name: Los datos de la web están sincronizados con el modelo
+        run: |
+          python web/build_data.py
+          if ! git diff --exit-code --stat -- web/data/modelo.js; then
+            echo "::error::web/data/modelo.js está desactualizado. Ejecuta python3 web/build_data.py y sube el cambio."
+            exit 1
+          fi
+
+  web:
+    name: Web
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Sintaxis de JavaScript
+        run: for f in web/app.js web/data/*.js; do node --check "$f"; done
+      - name: Instalar Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Prueba de humo
+        run: npm run test:web
+
+  documentos:
+    name: Enlaces de los documentos
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tests/comprobar_enlaces.py

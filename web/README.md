@@ -31,3 +31,7 @@ La rama de producción es `main`: cada push a `main` publica la web en https://e
 - Cada bloque tiene un color de calificación urbanística, usado solo en marcas.
 - Rayado: meta del bloque sin respaldo del modelo. Sólido: resultado del modelo.
 - Rojo de corrección: el escenario de choque y lo que pierde o falta.
+
+## Analítica
+
+La web usa Vercel Web Analytics (script `/_vercel/insights/script.js` en `index.html`). No usa cookies ni recoge datos personales; cuenta visitas y páginas vistas de forma agregada. En local el script devuelve 404 y no afecta al funcionamiento.
